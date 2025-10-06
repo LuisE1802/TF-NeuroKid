@@ -1,0 +1,714 @@
+<!-- File: /dashboards/psicologos.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroKid | Panel Psicólogo</title>
+
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="antialiased bg-gray-50">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="hidden md:flex md:flex-col w-72 bg-white border-r border-gray-200">
+      <div class="h-16 px-5 flex items-center justify-between border-b border-gray-100">
+        <a href="../index.html#inicio" class="flex items-center gap-3">
+          <img src="http://static.photos/blue/200x200/42" class="h-9 w-9 rounded-full" alt="Logo"/>
+          <span class="text-xl font-bold text-indigo-600">NeuroKid</span>
+        </a>
+      </div>
+      <nav class="flex-1 overflow-y-auto p-4">
+    <!-- 👇 fuerza columna + separación -->
+    <div class="nk-tabs flex flex-col gap-2" role="tablist" aria-label="Menú del panel de psicólogo">
+      <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="true" data-target="#tab-dashboard">
+        <i data-feather="bar-chart-2" class="w-4 h-4"></i> <span>Dashboard</span>
+      </button>
+      <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false" data-target="#tab-disponibilidad">
+        <i data-feather="clock" class="w-4 h-4"></i> <span>Disponibilidad</span>
+      </button>
+      <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false" data-target="#tab-asignaciones">
+        <i data-feather="users" class="w-4 h-4"></i> <span>Asignaciones</span>
+      </button>
+      <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false" data-target="#tab-citas">
+        <i data-feather="calendar" class="w-4 h-4"></i> <span>Citas</span>
+      </button>
+      <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false" data-target="#tab-informes">
+        <i data-feather="file-text" class="w-4 h-4"></i> <span>Informes</span>
+      </button>
+      <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false" data-target="#tab-recursos">
+        <i data-feather="book-open" class="w-4 h-4"></i> <span>Recursos</span>
+      </button>
+    </div>
+  </nav>
+      <div class="p-4 border-t border-gray-100">
+        <a href="../index.html#inicio" class="nk-btn-secondary w-full">
+          <i data-feather="log-out"></i> Salir
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1 flex flex-col">
+      <!-- Topbar móvil -->
+      <header class="md:hidden sticky top-0 z-40 bg-white border-b border-gray-200">
+        <div class="h-14 px-4 flex items-center justify-between">
+          <button id="btnOpenDrawer" class="p-2 rounded-lg border border-gray-200" aria-label="Abrir menú">
+            <i data-feather="menu"></i>
+          </button>
+          <span class="font-bold text-indigo-600">NeuroKid</span>
+          <span class="w-6"></span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="flex-1 p-4 md:p-8">
+        <!-- DASHBOARD -->
+        <section id="tab-dashboard" class="space-y-6" role="tabpanel" data-aos="fade-up">
+          <div class="nk-card p-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h1 class="text-2xl font-bold">¡Hola, Dra. Ana Martínez!</h1>
+                <p class="text-gray-600">Resumen de tu actividad y métricas generales.</p>
+              </div>
+              <div class="flex gap-2">
+                <a class="nk-btn-secondary" data-goto="#tab-disponibilidad"><i data-feather="clock"></i> Editar disponibilidad</a>
+                <a class="nk-btn-primary" data-goto="#tab-citas"><i data-feather="calendar"></i> Ver próximas citas</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="nk-stat">
+              <i data-feather="user-check"></i>
+              <div>
+                <p class="text-sm text-gray-500">Menores activos</p>
+                <p class="text-xl font-semibold">12</p>
+              </div>
+            </div>
+            <div class="nk-stat">
+              <i data-feather="calendar-check"></i>
+              <div>
+                <p class="text-sm text-gray-500">Citas realizadas (mes)</p>
+                <p class="text-xl font-semibold">28</p>
+              </div>
+            </div>
+            <div class="nk-stat">
+              <i data-feather="file-text"></i>
+              <div>
+                <p class="text-sm text-gray-500">Informes emitidos</p>
+                <p class="text-xl font-semibold">18</p>
+              </div>
+            </div>
+            <div class="nk-stat">
+              <i data-feather="star"></i>
+              <div>
+                <p class="text-sm text-gray-500">Promedio evaluaciones</p>
+                <p class="text-xl font-semibold">4.8</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="nk-card p-6">
+              <h3 class="font-semibold mb-2">Citas por semana</h3>
+              <div class="h-64"><canvas id="chartCitas"></canvas></div>
+            </div>
+            <div class="nk-card p-6">
+              <h3 class="font-semibold mb-2">Evaluaciones recibidas</h3>
+              <div class="h-64"><canvas id="chartEval"></canvas></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DISPONIBILIDAD -->
+        <section id="tab-disponibilidad" class="hidden space-y-6" role="tabpanel" aria-hidden="true" data-aos="fade-up">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <h2 class="text-2xl font-bold">Disponibilidad horaria</h2>
+            <button class="nk-btn-primary" data-open="#modalNuevaDisp"><i data-feather="plus"></i> Añadir franja</button>
+          </div>
+
+          <div class="nk-card p-0 overflow-hidden">
+            <table class="nk-table">
+              <thead>
+                <tr>
+                  <th>Día</th>
+                  <th>Inicio</th>
+                  <th>Fin</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDisp">
+                <tr>
+                  <td>Lunes</td><td>10:00</td><td>12:00</td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm" data-open="#modalEditDisp" data-dia="Lunes" data-inicio="10:00" data-fin="12:00"><i data-feather="edit-2"></i> Editar</button>
+                    <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i> Eliminar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Miércoles</td><td>11:00</td><td>13:00</td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm" data-open="#modalEditDisp" data-dia="Miércoles" data-inicio="11:00" data-fin="13:00"><i data-feather="edit-2"></i> Editar</button>
+                    <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i> Eliminar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Viernes</td><td>09:00</td><td>11:00</td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm" data-open="#modalEditDisp" data-dia="Viernes" data-inicio="09:00" data-fin="11:00"><i data-feather="edit-2"></i> Editar</button>
+                    <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i> Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="text-sm text-gray-500">CRUD simulado sobre <strong>DisponibilidadHoraria</strong>.</p>
+        </section>
+
+        <!-- ASIGNACIONES -->
+        <section id="tab-asignaciones" class="hidden space-y-6" role="tabpanel" aria-hidden="true" data-aos="fade-up">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <h2 class="text-2xl font-bold">Asignaciones activas</h2>
+            <div class="flex gap-2">
+              <input type="search" class="nk-input" placeholder="Buscar menor/padre...">
+              <select class="nk-select">
+                <option value="all">Todas</option>
+                <option value="activa">Activa</option>
+                <option value="pausada">Pausada</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <!-- Card asignación -->
+            <article class="nk-card p-6 card-hover">
+              <div class="flex items-center gap-4">
+                <img class="h-14 w-14 rounded-full object-cover" src="http://static.photos/people/200x200/7" alt="Lucas">
+                <div>
+                  <h3 class="font-semibold">Lucas González</h3>
+                  <p class="text-sm text-gray-500">Padre: María González</p>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center gap-2">
+                <span class="nk-badge nk-badge--success">Activa</span>
+                <span class="text-sm text-gray-500">Asignado: 2024-10-01</span>
+              </div>
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                <a class="nk-btn-secondary" data-goto="#tab-citas"><i data-feather="calendar"></i> Ver citas</a>
+                <a class="nk-btn-primary" data-goto="#tab-informes"><i data-feather="file-plus"></i> Nuevo informe</a>
+              </div>
+            </article>
+
+            <article class="nk-card p-6 card-hover">
+              <div class="flex items-center gap-4">
+                <img class="h-14 w-14 rounded-full object-cover" src="http://static.photos/people/200x200/8" alt="Sofía">
+                <div>
+                  <h3 class="font-semibold">Sofía González</h3>
+                  <p class="text-sm text-gray-500">Padre: María González</p>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center gap-2">
+                <span class="nk-badge nk-badge--success">Activa</span>
+                <span class="text-sm text-gray-500">Asignado: 2025-01-15</span>
+              </div>
+              <div class="mt-4 grid grid-cols-2 gap-2">
+                <a class="nk-btn-secondary" data-goto="#tab-citas"><i data-feather="calendar"></i> Ver citas</a>
+                <a class="nk-btn-primary" data-goto="#tab-informes"><i data-feather="file-plus"></i> Nuevo informe</a>
+              </div>
+            </article>
+
+            <!-- Placeholder para más asignaciones... -->
+          </div>
+
+          <p class="text-sm text-gray-500">Vista de <strong>Asignación</strong> enlaza a <em>Padre</em> y <em>Menor</em>.</p>
+        </section>
+
+        <!-- CITAS -->
+        <section id="tab-citas" class="hidden space-y-6" role="tabpanel" aria-hidden="true" data-aos="fade-up">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <h2 class="text-2xl font-bold">Citas</h2>
+            <div class="flex gap-2">
+              <select class="nk-select">
+                <option>Próximas</option>
+                <option>Todas</option>
+                <option>Atendidas</option>
+              </select>
+              <input type="search" class="nk-input" placeholder="Buscar por menor/motivo..."/>
+            </div>
+          </div>
+
+          <div class="nk-card p-0 overflow-hidden">
+            <table class="nk-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Menor</th>
+                  <th>Motivo</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2025-06-15</td>
+                  <td>10:30–11:15</td>
+                  <td>Lucas</td>
+                  <td>Seguimiento</td>
+                  <td><span class="badge-status badge-status--pending">Pendiente</span></td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm" data-open="#modalConfirmCita" data-cita="1"><i data-feather="check-circle"></i> Confirmar</button>
+                    <button class="nk-btn-ghost text-sm" data-open="#modalAtenderCita" data-cita="1"><i data-feather="edit-3"></i> Atender</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2025-06-18</td>
+                  <td>11:00–11:45</td>
+                  <td>Sofía</td>
+                  <td>Evaluación inicial</td>
+                  <td><span class="badge-status badge-status--pending">Pendiente</span></td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm" data-open="#modalConfirmCita" data-cita="2"><i data-feather="check-circle"></i> Confirmar</button>
+                    <button class="nk-btn-ghost text-sm" data-open="#modalAtenderCita" data-cita="2"><i data-feather="edit-3"></i> Atender</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2025-05-12</td>
+                  <td>09:00–09:45</td>
+                  <td>Lucas</td>
+                  <td>Control mensual</td>
+                  <td><span class="badge-status badge-status--done">Atendida</span></td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm" data-open="#modalVerHallazgos" data-cita="3"><i data-feather="file-text"></i> Ver hallazgos</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="text-sm text-gray-500">Gestión UI para <strong>Cita</strong>: confirmar, registrar <em>Hallazgos</em> y <em>Tareas</em>.</p>
+        </section>
+
+        <!-- INFORMES -->
+        <section id="tab-informes" class="hidden space-y-6" role="tabpanel" aria-hidden="true" data-aos="fade-up">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <h2 class="text-2xl font-bold">Informes mensuales</h2>
+            <button class="nk-btn-primary" data-open="#modalNuevoInforme"><i data-feather="file-plus"></i> Crear informe</button>
+          </div>
+
+          <div class="nk-card p-0 overflow-hidden">
+            <table class="nk-table">
+              <thead>
+                <tr>
+                  <th>Mes</th>
+                  <th>Año</th>
+                  <th>Menor</th>
+                  <th>Resumen</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>05</td><td>2025</td><td>Lucas</td>
+                  <td>Mejoras en atención sostenida y planificación.</td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm"><i data-feather="download"></i> Descargar</button>
+                    <button class="nk-btn-ghost text-sm" data-open="#modalEditarInforme"><i data-feather="edit"></i> Editar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>05</td><td>2025</td><td>Sofía</td>
+                  <td>Avances en lenguaje expresivo; mayor participación.</td>
+                  <td class="flex gap-2">
+                    <button class="nk-btn-ghost text-sm"><i data-feather="download"></i> Descargar</button>
+                    <button class="nk-btn-ghost text-sm" data-open="#modalEditarInforme"><i data-feather="edit"></i> Editar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="text-sm text-gray-500">UI de creación/edición sobre tabla <strong>Informe</strong>.</p>
+        </section>
+
+        <!-- RECURSOS EDUCATIVOS -->
+        <section id="tab-recursos" class="hidden space-y-6" role="tabpanel" aria-hidden="true" data-aos="fade-up">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <h2 class="text-2xl font-bold">Recursos educativos</h2>
+            <button class="nk-btn-primary" data-open="#modalNuevoRecurso"><i data-feather="plus"></i> Nuevo recurso</button>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article class="nk-card overflow-hidden card-hover">
+              <img src="http://static.photos/education/640x360/3" alt="Guía sensorial" class="w-full h-44 object-cover"/>
+              <div class="p-5">
+                <h3 class="text-lg font-semibold">Guía de Actividades Sensoriales</h3>
+                <p class="text-sm text-gray-600 mt-1">25 actividades para integración sensorial.</p>
+                <div class="mt-4 flex items-center justify-between text-sm">
+                  <span class="text-gray-500">PDF • 2.4MB</span>
+                  <div class="flex gap-2">
+                    <button class="nk-btn-ghost" data-open="#modalEditarRecurso"><i data-feather="edit"></i> Editar</button>
+                    <button class="nk-btn-ghost"><i data-feather="trash-2"></i> Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="nk-card overflow-hidden card-hover">
+              <img src="http://static.photos/education/640x360/4" alt="Cuentos" class="w-full h-44 object-cover"/>
+              <div class="p-5">
+                <h3 class="text-lg font-semibold">Cuentos para Regular Emociones</h3>
+                <p class="text-sm text-gray-600 mt-1">10 historias para identificar emociones.</p>
+                <div class="mt-4 flex items-center justify-between text-sm">
+                  <span class="text-gray-500">PDF • 5.1MB</span>
+                  <div class="flex gap-2">
+                    <button class="nk-btn-ghost" data-open="#modalEditarRecurso"><i data-feather="edit"></i> Editar</button>
+                    <button class="nk-btn-ghost"><i data-feather="trash-2"></i> Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="nk-card overflow-hidden card-hover">
+              <img src="http://static.photos/education/640x360/5" alt="Manual TDAH" class="w-full h-44 object-cover"/>
+              <div class="p-5">
+                <h3 class="text-lg font-semibold">Manual de Estrategias para TDAH</h3>
+                <p class="text-sm text-gray-600 mt-1">Técnicas para atención y organización.</p>
+                <div class="mt-4 flex items-center justify-between text-sm">
+                  <span class="text-gray-500">PDF • 3.7MB</span>
+                  <div class="flex gap-2">
+                    <button class="nk-btn-ghost" data-open="#modalEditarRecurso"><i data-feather="edit"></i> Editar</button>
+                    <button class="nk-btn-ghost"><i data-feather="trash-2"></i> Eliminar</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <p class="text-sm text-gray-500">CRUD UI para <strong>RecursoEducativo</strong>. Los padres podrán verlos y marcarlos como favoritos.</p>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="px-4 md:px-8 py-6 border-t border-gray-200 bg-white">
+        <div class="text-sm text-gray-500 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+          <p>© 2025 NeuroKid.</p>
+          <nav class="flex gap-4">
+            <a href="../legales/privacidad.html" class="nk-footer-link">Privacidad</a>
+            <a href="../legales/terminos.html" class="nk-footer-link">Términos</a>
+            <a href="../legales/aviso-legal.html" class="nk-footer-link">Aviso Legal</a>
+            <a href="../legales/cookies.html" class="nk-footer-link">Cookies</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ============ Modales ============ -->
+
+  <!-- Nueva Disponibilidad -->
+  <div id="modalNuevaDisp" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleNuevaDisp">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleNuevaDisp" class="text-xl font-bold">Añadir franja de disponibilidad</h3>
+        <button class="nk-btn-ghost" data-close="#modalNuevaDisp" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-3 gap-4" onsubmit="return false;">
+        <label class="block md:col-span-1">
+          <span class="block text-sm text-gray-700 mb-1">Día</span>
+          <select class="nk-select" aria-required="true">
+            <option>Lunes</option><option>Martes</option><option>Miércoles</option>
+            <option>Jueves</option><option>Viernes</option>
+          </select>
+        </label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Inicio</span><input type="time" class="nk-input" aria-required="true"/></label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Fin</span><input type="time" class="nk-input" aria-required="true"/></label>
+        <div class="md:col-span-3 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalNuevaDisp">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Guardar</button>
+        </div>
+      </form>
+      <p class="text-sm text-gray-500 mt-3">Inserta en <strong>DisponibilidadHoraria</strong> (UI).</p>
+    </div>
+  </div>
+
+  <!-- Editar Disponibilidad -->
+  <div id="modalEditDisp" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditDisp">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleEditDisp" class="text-xl font-bold">Editar franja</h3>
+        <button class="nk-btn-ghost" data-close="#modalEditDisp" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-3 gap-4" onsubmit="return false;">
+        <label class="block md:col-span-1">
+          <span class="block text-sm text-gray-700 mb-1">Día</span>
+          <input id="editDia" class="nk-input" readonly/>
+        </label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Inicio</span><input id="editInicio" type="time" class="nk-input"/></label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Fin</span><input id="editFin" type="time" class="nk-input"/></label>
+        <div class="md:col-span-3 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalEditDisp">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+        </div>
+      </form>
+      <p class="text-sm text-gray-500 mt-3">Update en <strong>DisponibilidadHoraria</strong> (UI).</p>
+    </div>
+  </div>
+
+  <!-- Confirmar Cita -->
+  <div id="modalConfirmCita" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleConfirmCita">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleConfirmCita" class="text-xl font-bold">Confirmar cita</h3>
+        <button class="nk-btn-ghost" data-close="#modalConfirmCita" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <div class="space-y-3">
+        <p class="text-gray-700 text-sm">¿Confirmas la cita seleccionada? Se notificará al padre/apoderado.</p>
+        <div class="flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalConfirmCita">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="check-circle"></i> Confirmar</button>
+        </div>
+      </div>
+      <p class="text-sm text-gray-500 mt-3">Cambia estado en <strong>Cita</strong> (UI).</p>
+    </div>
+  </div>
+
+  <!-- Atender Cita (registrar hallazgos y tareas) -->
+  <div id="modalAtenderCita" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleAtender">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleAtender" class="text-xl font-bold">Atender cita</h3>
+        <button class="nk-btn-ghost" data-close="#modalAtenderCita" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+        <label class="md:col-span-2 block">
+          <span class="block text-sm text-gray-700 mb-1">Hallazgos</span>
+          <textarea class="nk-textarea" placeholder="Notas clínicas y observaciones..."></textarea>
+        </label>
+        <label class="md:col-span-2 block">
+          <span class="block text-sm text-gray-700 mb-1">Tareas para casa</span>
+          <textarea class="nk-textarea" placeholder="Ejercicios y pautas recomendadas..."></textarea>
+        </label>
+        <div class="md:col-span-2 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalAtenderCita">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Guardar y marcar atendida</button>
+        </div>
+      </form>
+      <p class="text-sm text-gray-500 mt-3">Persistir en <strong>Cita.Hallazgos</strong> y <strong>Cita.Tareas</strong> (UI).</p>
+    </div>
+  </div>
+
+  <!-- Ver Hallazgos -->
+  <div id="modalVerHallazgos" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleVerHall">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleVerHall" class="text-xl font-bold">Hallazgos y tareas</h3>
+        <button class="nk-btn-ghost" data-close="#modalVerHallazgos" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <div class="grid gap-4">
+        <div class="nk-card p-4">
+          <h4 class="font-semibold mb-2">Hallazgos</h4>
+          <p class="text-sm text-gray-700">Mejoras en atención sostenida; progreso en memoria de trabajo.</p>
+        </div>
+        <div class="nk-card p-4">
+          <h4 class="font-semibold mb-2">Tareas</h4>
+          <ul class="text-sm text-gray-700 list-disc ml-5 space-y-1">
+            <li>Ejercicios de memoria 3 veces por semana.</li>
+            <li>Rutina de planificación diaria.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a class="nk-btn-secondary text-sm"><i data-feather="download"></i> Descargar PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nuevo Informe -->
+  <div id="modalNuevoInforme" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleNuevoInforme">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleNuevoInforme" class="text-xl font-bold">Crear informe mensual</h3>
+        <button class="nk-btn-ghost" data-close="#modalNuevoInforme" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Menor</span>
+          <select class="nk-select"><option>Lucas</option><option>Sofía</option></select>
+        </label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Mes</span><input type="number" class="nk-input" min="1" max="12" value="6"/></label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Año</span><input type="number" class="nk-input" value="2025"/></label>
+        <label class="md:col-span-2 block"><span class="block text-sm text-gray-700 mb-1">Resumen</span><textarea class="nk-textarea" placeholder="Resumen de progreso..."></textarea></label>
+        <div class="md:col-span-2 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalNuevoInforme">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Guardar</button>
+        </div>
+      </form>
+      <p class="text-sm text-gray-500 mt-3">Inserta en la tabla <strong>Informe</strong> (UI).</p>
+    </div>
+  </div>
+
+  <!-- Editar Informe -->
+  <div id="modalEditarInforme" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditarInforme">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleEditarInforme" class="text-xl font-bold">Editar informe</h3>
+        <button class="nk-btn-ghost" data-close="#modalEditarInforme" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Resumen</span>
+          <textarea class="nk-textarea">Mejoras en atención sostenida y planificación.</textarea>
+        </label>
+        <div class="md:col-span-2 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalEditarInforme">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Nuevo Recurso -->
+  <div id="modalNuevoRecurso" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleNuevoRecurso">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleNuevoRecurso" class="text-xl font-bold">Nuevo recurso educativo</h3>
+        <button class="nk-btn-ghost" data-close="#modalNuevoRecurso" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Título</span><input class="nk-input" placeholder="Título del recurso"/></label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Link</span><input class="nk-input" placeholder="URL o archivo"/></label>
+        <label class="md:col-span-2 block"><span class="block text-sm text-gray-700 mb-1">Descripción</span><textarea class="nk-textarea" placeholder="Breve descripción"></textarea></label>
+        <div class="md:col-span-2 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalNuevoRecurso">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Publicar</button>
+        </div>
+      </form>
+      <p class="text-sm text-gray-500 mt-3">Inserta en <strong>RecursoEducativo</strong> (UI).</p>
+    </div>
+  </div>
+
+  <!-- Editar Recurso -->
+  <div id="modalEditarRecurso" class="nk-modal-backdrop" aria-hidden="true">
+    <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditarRecurso">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="titleEditarRecurso" class="text-xl font-bold">Editar recurso</h3>
+        <button class="nk-btn-ghost" data-close="#modalEditarRecurso" aria-label="Cerrar"><i data-feather="x"></i></button>
+      </div>
+      <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Título</span><input class="nk-input" value="Guía de Actividades Sensoriales"/></label>
+        <label class="block"><span class="block text-sm text-gray-700 mb-1">Link</span><input class="nk-input" value="https://ejemplo.com/guia-sensorial.pdf"/></label>
+        <label class="md:col-span-2 block"><span class="block text-sm text-gray-700 mb-1">Descripción</span><textarea class="nk-textarea">25 actividades para integración sensorial.</textarea></label>
+        <div class="md:col-span-2 flex items-center justify-end gap-2">
+          <button class="nk-btn-secondary" data-close="#modalEditarRecurso">Cancelar</button>
+          <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- AOS + app -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="../assets/app.js"></script>
+
+  <script>
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    AOS.init({ duration: reduceMotion ? 0 : 600, once: true });
+    feather.replace();
+
+    // Tabs
+    const tabButtons = document.querySelectorAll(".nk-tab");
+    const panelIds = ["#tab-dashboard","#tab-disponibilidad","#tab-asignaciones","#tab-citas","#tab-informes","#tab-recursos"];
+    const panels = panelIds.map(id => document.querySelector(id));
+    tabButtons.forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        tabButtons.forEach(b=>b.setAttribute("aria-selected","false"));
+        btn.setAttribute("aria-selected","true");
+        const target = btn.getAttribute("data-target");
+        panels.forEach(p=>{
+          if(!p) return;
+          const show = "#"+p.id === target;
+          p.classList.toggle("hidden", !show);
+          p.setAttribute("aria-hidden", show? "false":"true");
+        });
+        window.scrollTo({top:0, behavior: reduceMotion ? "auto" : "smooth"});
+      });
+    });
+
+    // Navegación desde botones con data-goto
+    document.body.addEventListener("click",(e)=>{
+      const a = e.target.closest("[data-goto]");
+      if(!a) return;
+      const target = a.getAttribute("data-goto");
+      const btn = [...tabButtons].find(b=>b.getAttribute("data-target")===target);
+      if(btn) btn.click();
+    });
+
+    // Modales open/close
+    function openModal(id){ const el = document.querySelector(id); if(!el) return; el.classList.add("is-open"); el.setAttribute("aria-hidden","false"); }
+    function closeModal(id){ const el = document.querySelector(id); if(!el) return; el.classList.remove("is-open"); el.setAttribute("aria-hidden","true"); }
+    document.body.addEventListener("click",(e)=>{
+      const openBtn = e.target.closest("[data-open]");
+      if(openBtn){ e.preventDefault(); openModal(openBtn.getAttribute("data-open")); }
+      const closeBtn = e.target.closest("[data-close]");
+      if(closeBtn){ e.preventDefault(); closeModal(closeBtn.getAttribute("data-close")); }
+    });
+    document.querySelectorAll(".nk-modal-backdrop").forEach(b=>{
+      b.addEventListener("mousedown",(e)=>{ if(e.target===b) b.classList.remove("is-open"); });
+    });
+
+    // Precarga modal Editar Disponibilidad
+    document.querySelectorAll("[data-open='#modalEditDisp']").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        document.getElementById("editDia").value = btn.getAttribute("data-dia") || "";
+        document.getElementById("editInicio").value = btn.getAttribute("data-inicio") || "";
+        document.getElementById("editFin").value = btn.getAttribute("data-fin") || "";
+      });
+    });
+
+    // Charts Dashboard
+    const citasCtx = document.getElementById("chartCitas");
+    const evalCtx  = document.getElementById("chartEval");
+
+    new Chart(citasCtx, {
+      type: "bar",
+      data: {
+        labels: ["Sem1","Sem2","Sem3","Sem4"],
+        datasets: [{
+          label: "Citas",
+          data: [6, 7, 8, 7],
+          backgroundColor: "rgba(94,129,244,.25)",
+          borderColor: "#5E81F4",
+          borderWidth: 1,
+        }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, suggestedMax:10 } } }
+    });
+
+    new Chart(evalCtx, {
+      type: "line",
+      data: {
+        labels: ["Ene","Feb","Mar","Abr","May","Jun"],
+        datasets: [{
+          label: "Promedio",
+          data: [4.6,4.7,4.8,4.7,4.9,4.8],
+          backgroundColor: "rgba(255,122,198,.12)",
+          borderColor: "#FF7AC6",
+          tension: .3,
+          fill: true
+        }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ min: 0, max: 5 } } }
+    });
+  </script>
+</body>
+</html>

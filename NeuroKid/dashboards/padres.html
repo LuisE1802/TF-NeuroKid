@@ -1,0 +1,1061 @@
+<!-- File: /dashboards/padres.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuroKid | Panel Padre/Apoderado</title>
+
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Estilos globales del sitio -->
+    <link rel="stylesheet" href="../assets/styles.css" />
+
+    <!-- Chart.js para gráficas del progreso -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="antialiased bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 sticky top-0 h-screen">
+            <div class="h-16 px-5 flex items-center justify-between border-b border-gray-100">
+                <a href="../index.html#inicio" class="flex items-center gap-3">
+                    <img src="http://static.photos/blue/200x200/42" alt="Logo" class="h-9 w-9 rounded-full" />
+                    <span class="text-xl font-bold text-indigo-600">NeuroKid</span>
+                </a>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-4">
+                <!-- 👇 fuerza columna + separación -->
+                <div class="nk-tabs flex flex-col gap-2" role="tablist" aria-label="Menú del panel">
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="true"
+                        data-target="#tab-inicio">
+                        <i data-feather="home" class="w-4 h-4"></i> <span>Inicio</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-menores">
+                        <i data-feather="users" class="w-4 h-4"></i> <span>Menores</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-citas">
+                        <i data-feather="calendar" class="w-4 h-4"></i> <span>Citas</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-progreso">
+                        <i data-feather="bar-chart-2" class="w-4 h-4"></i> <span>Progreso</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-recursos">
+                        <i data-feather="book-open" class="w-4 h-4"></i> <span>Recursos</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-evaluaciones">
+                        <i data-feather="star" class="w-4 h-4"></i> <span>Evaluar Psicólogo</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="p-4 border-t border-gray-100">
+                <a href="../index.html#inicio" class="nk-btn-secondary w-full">
+                    <i data-feather="log-out"></i> Salir
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex-1 flex flex-col">
+            <!-- Topbar móvil -->
+            <header class="md:hidden sticky top-0 z-40 bg-white border-b border-gray-200">
+                <div class="h-14 px-4 flex items-center justify-between">
+                    <button id="btnOpenDrawer" class="p-2 rounded-lg border border-gray-200" aria-label="Abrir menú">
+                        <i data-feather="menu"></i>
+                    </button>
+                    <span class="font-bold text-indigo-600">NeuroKid</span>
+                    <span class="w-6"></span>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 p-4 md:p-8">
+                <!-- Saludo -->
+                <section id="tab-inicio" class="space-y-6" data-aos="fade-up" role="tabpanel">
+                    <div class="nk-card p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">¡Bienvenida, María!</h1>
+                                <p class="text-gray-600">Gestiona la información de tus hijos, agenda citas y revisa su
+                                    progreso.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="nk-btn-primary" data-open="#modalRegistrarMenor">
+                                    <i data-feather="user-plus"></i> Registrar menor
+                                </button>
+                                <a href="#tab-citas" class="nk-btn-secondary" data-goto="#tab-citas">
+                                    <i data-feather="calendar"></i> Pedir cita
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resumen (stats) -->
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="nk-stat">
+                            <i data-feather="users"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Menores registrados</p>
+                                <p class="text-xl font-semibold">2</p>
+                            </div>
+                        </div>
+                        <div class="nk-stat">
+                            <i data-feather="calendar"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Próximas citas</p>
+                                <p class="text-xl font-semibold">2</p>
+                            </div>
+                        </div>
+                        <div class="nk-stat">
+                            <i data-feather="bar-chart-2"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Informes del mes</p>
+                                <p class="text-xl font-semibold">2</p>
+                            </div>
+                        </div>
+                        <div class="nk-stat">
+                            <i data-feather="book-open"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Recursos favoritos</p>
+                                <p class="text-xl font-semibold">3</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tarjetas de menores -->
+                    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Lucas -->
+                        <article class="nk-card p-6 card-hover">
+                            <div class="flex items-center gap-4">
+                                <img class="h-14 w-14 rounded-full object-cover"
+                                    src="http://static.photos/people/200x200/7" alt="Lucas" />
+                                <div>
+                                    <h3 class="text-lg font-semibold">Lucas González</h3>
+                                    <p class="text-sm text-gray-500">5 años — Psicóloga: Ana Martínez</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <button class="nk-btn-secondary" data-open="#modalEditarMenor" data-menor="lucas">
+                                    <i data-feather="edit"></i> Editar
+                                </button>
+                                <a class="nk-btn-primary" data-goto="#tab-progreso">
+                                    <i data-feather="activity"></i> Progreso
+                                </a>
+                            </div>
+                            <div class="mt-3 text-sm text-gray-600">
+                                Próxima cita: <strong>15 Jun, 10:30 AM</strong>
+                            </div>
+                        </article>
+
+                        <!-- Sofía -->
+                        <article class="nk-card p-6 card-hover">
+                            <div class="flex items-center gap-4">
+                                <img class="h-14 w-14 rounded-full object-cover"
+                                    src="http://static.photos/people/200x200/8" alt="Sofía" />
+                                <div>
+                                    <h3 class="text-lg font-semibold">Sofía González</h3>
+                                    <p class="text-sm text-gray-500">3 años — Psicólogo: Carlos Rojas</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-2 gap-2">
+                                <button class="nk-btn-secondary" data-open="#modalEditarMenor" data-menor="sofia">
+                                    <i data-feather="edit"></i> Editar
+                                </button>
+                                <a class="nk-btn-primary" data-goto="#tab-progreso">
+                                    <i data-feather="activity"></i> Progreso
+                                </a>
+                            </div>
+                            <div class="mt-3 text-sm text-gray-600">
+                                Próxima cita: <strong>18 Jun, 11:00 AM</strong>
+                            </div>
+                        </article>
+
+                        <!-- Agregar nuevo -->
+                        <article class="nk-card p-6 card-hover bg-gradient-to-r from-indigo-50 to-purple-50">
+                            <div class="flex flex-col items-center justify-center py-6">
+                                <i data-feather="plus" class="h-10 w-10 text-indigo-600"></i>
+                                <h3 class="mt-2 text-lg font-medium text-gray-900">Agregar nuevo menor</h3>
+                                <button class="mt-4 nk-btn-primary" data-open="#modalRegistrarMenor">Registrar</button>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Menores (CRUD UI) -->
+                <section id="tab-menores" class="hidden space-y-6" data-aos="fade-up" role="tabpanel"
+                    aria-hidden="true">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Menores</h2>
+                        <button class="nk-btn-primary" data-open="#modalRegistrarMenor">
+                            <i data-feather="user-plus"></i> Registrar menor
+                        </button>
+                    </div>
+
+                    <div class="nk-card p-0 overflow-hidden">
+                        <table class="nk-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Fecha Nacimiento</th>
+                                    <th>Asignación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lucas González</td>
+                                    <td>2019-02-18</td>
+                                    <td>Dra. Ana Martínez</td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEditarMenor"
+                                            data-menor="lucas"><i data-feather="edit"></i> Editar</button>
+                                        <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                            Eliminar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sofía González</td>
+                                    <td>2021-06-05</td>
+                                    <td>Dr. Carlos Rojas</td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEditarMenor"
+                                            data-menor="sofia"><i data-feather="edit"></i> Editar</button>
+                                        <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                            Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Citas (listado + nueva cita) -->
+                <section id="tab-citas" class="hidden space-y-6" data-aos="fade-up" role="tabpanel" aria-hidden="true">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Citas</h2>
+                        <button class="nk-btn-primary" data-open="#modalNuevaCita">
+                            <i data-feather="calendar"></i> Solicitar nueva cita
+                        </button>
+                    </div>
+
+                    <div class="nk-card p-0 overflow-hidden">
+                        <table class="nk-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Menor</th>
+                                    <th>Psicólogo</th>
+                                    <th>Motivo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025-06-15</td>
+                                    <td>10:30–11:15</td>
+                                    <td>Lucas</td>
+                                    <td>Dra. Ana Martínez</td>
+                                    <td>Seguimiento</td>
+                                    <td><span class="badge-status badge-status--pending">Pendiente</span></td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalDetalleCita"
+                                            data-cita="1"><i data-feather="eye"></i> Detalles</button>
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEvaluar"
+                                            data-psicologo="Ana Martínez"><i data-feather="star"></i> Evaluar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2025-06-18</td>
+                                    <td>11:00–11:45</td>
+                                    <td>Sofía</td>
+                                    <td>Dr. Carlos Rojas</td>
+                                    <td>Evaluación inicial</td>
+                                    <td><span class="badge-status badge-status--pending">Pendiente</span></td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalDetalleCita"
+                                            data-cita="2"><i data-feather="eye"></i> Detalles</button>
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEvaluar"
+                                            data-psicologo="Carlos Rojas"><i data-feather="star"></i> Evaluar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2025-05-12</td>
+                                    <td>09:00–09:45</td>
+                                    <td>Lucas</td>
+                                    <td>Dra. Ana Martínez</td>
+                                    <td>Control mensual</td>
+                                    <td><span class="badge-status badge-status--done">Atendida</span></td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalDetalleCita"
+                                            data-cita="3"><i data-feather="file-text"></i> Hallazgos</button>
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEvaluar"
+                                            data-psicologo="Ana Martínez"><i data-feather="star"></i> Evaluar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-sm text-gray-500">
+                        <p>Disponibilidad tomada de <strong>DisponibilidadHoraria</strong>. La creación de la cita
+                            corresponde a la tabla <strong>Cita</strong> (UI simulada).</p>
+                    </div>
+                </section>
+
+                <!-- Progreso / Informes -->
+                <section id="tab-progreso" class="space-y-6" role="tabpanel" aria-hidden="false">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Progreso</h2>
+                        <div class="flex gap-2">
+                            <select id="selMenorProgreso" class="nk-select">
+                                <option value="lucas" selected>Lucas González</option>
+                                <option value="sofia">Sofía González</option>
+                            </select>
+                            <select id="selRangoProgreso" class="nk-select">
+                                <option value="mensual" selected>Mensual</option>
+                                <option value="semanal">Semanal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="nk-card p-6">
+                            <h3 class="font-semibold mb-2">Regulación emocional</h3>
+                            <div style="height:260px"><canvas id="chartEmocional"></canvas></div>
+                        </div>
+                        <div class="nk-card p-6">
+                            <h3 class="font-semibold mb-2">Desarrollo cognitivo</h3>
+                            <div style="height:260px"><canvas id="chartCognitivo"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="nk-card p-6">
+                        <h3 class="font-semibold mb-3">Informes recientes</h3>
+                        <div class="overflow-x-auto">
+                            <table class="nk-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mes</th>
+                                        <th>Año</th>
+                                        <th>Menor</th>
+                                        <th>Resumen</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyInformes">
+                                    <tr data-menor="Lucas González">
+                                        <td>05</td>
+                                        <td>2025</td>
+                                        <td>Lucas</td>
+                                        <td>Mejoras en atención sostenida y memoria de trabajo.</td>
+                                        <td><button class="nk-btn-ghost text-sm">Descargar</button></td>
+                                    </tr>
+                                    <tr data-menor="Sofía González">
+                                        <td>05</td>
+                                        <td>2025</td>
+                                        <td>Sofía</td>
+                                        <td>Avances en lenguaje expresivo y participación.</td>
+                                        <td><button class="nk-btn-ghost text-sm">Descargar</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <!-- Recursos (listado + favoritos) -->
+                <section id="tab-recursos" class="hidden space-y-6" data-aos="fade-up" role="tabpanel"
+                    aria-hidden="true">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Recursos Educativos</h2>
+                        <div class="flex gap-2">
+                            <input type="search" class="nk-input" placeholder="Buscar materiales..." />
+                            <select class="nk-select">
+                                <option value="all">Todos</option>
+                                <option value="lenguaje">Lenguaje</option>
+                                <option value="emocional">Regulación emocional</option>
+                                <option value="sensorial">Sensorial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Card -->
+                        <article class="nk-card overflow-hidden card-hover nk-resource-card">
+                            <img src="http://static.photos/education/640x360/3" alt="Guía sensorial"
+                                class="w-full h-44 object-cover" />
+                            <div class="p-5">
+                                <div class="flex items-start justify-between">
+                                    <h3 class="text-lg font-semibold">Guía de Actividades Sensoriales</h3>
+                                    <button class="text-gray-400 hover:text-yellow-500" data-fav="false"
+                                        aria-label="Favorito">
+                                        <i data-feather="star"></i>
+                                    </button>
+                                </div>
+                                <p class="text-gray-600 mt-1 text-sm">25 actividades para integración sensorial.</p>
+                                <div class="nk-resource-actions mt-4 text-sm">
+                                    <span class="text-gray-500">PDF • 2.4MB</span>
+                                    <a href="#" class="text-indigo-600 hover:underline">Descargar</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="nk-card overflow-hidden card-hover nk-resource-card">
+                            <img src="http://static.photos/education/640x360/4" alt="Cuentos emociones"
+                                class="w-full h-44 object-cover" />
+                            <div class="p-5">
+                                <div class="flex items-start justify-between">
+                                    <h3 class="text-lg font-semibold">Cuentos para Regular Emociones</h3>
+                                    <button class="text-gray-400 hover:text-yellow-500" data-fav="true"
+                                        aria-label="Favorito">
+                                        <i data-feather="star"></i>
+                                    </button>
+                                </div>
+                                <p class="text-gray-600 mt-1 text-sm">10 historias para identificar emociones.</p>
+                                <div class="nk-resource-actions mt-4 text-sm">
+                                    <span class="text-gray-500">PDF • 5.1MB</span>
+                                    <a href="#" class="text-indigo-600 hover:underline">Descargar</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="nk-card overflow-hidden card-hover nk-resource-card">
+                            <img src="http://static.photos/education/640x360/5" alt="Manual TDAH"
+                                class="w-full h-44 object-cover" />
+                            <div class="p-5">
+                                <div class="flex items-start justify-between">
+                                    <h3 class="text-lg font-semibold">Manual de Estrategias para TDAH</h3>
+                                    <button class="text-gray-400 hover:text-yellow-500" data-fav="false"
+                                        aria-label="Favorito">
+                                        <i data-feather="star"></i>
+                                    </button>
+                                </div>
+                                <p class="text-gray-600 mt-1 text-sm">Técnicas para atención y organización.</p>
+                                <div class="nk-resource-actions mt-4 text-sm">
+                                    <span class="text-gray-500">PDF • 3.7MB</span>
+                                    <a href="#" class="text-indigo-600 hover:underline">Descargar</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <p class="text-sm text-gray-500">Marcar favorito crea un registro en <strong>Favorito</strong> (UI
+                        simulada).</p>
+                </section>
+
+                <!-- Evaluaciones (crear EvaluacionPsicologo) -->
+                <section id="tab-evaluaciones" class="hidden space-y-6" data-aos="fade-up" role="tabpanel"
+                    aria-hidden="true">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Evaluar Psicólogo</h2>
+                    </div>
+
+                    <div class="nk-card p-6">
+                        <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                            <label class="block">
+                                <span class="block text-sm text-gray-700 mb-1">Cita atendida</span>
+                                <select class="nk-select">
+                                    <option>12 May 2025 — Lucas (Ana Martínez)</option>
+                                    <option>20 Abr 2025 — Sofía (Carlos Rojas)</option>
+                                </select>
+                            </label>
+                            <label class="block">
+                                <span class="block text-sm text-gray-700 mb-1">Puntaje</span>
+                                <select class="nk-select" aria-required="true">
+                                    <option>5 - Excelente</option>
+                                    <option>4 - Muy bueno</option>
+                                    <option>3 - Bueno</option>
+                                    <option>2 - Regular</option>
+                                    <option>1 - Deficiente</option>
+                                </select>
+                            </label>
+                            <label class="md:col-span-2">
+                                <span class="block text-sm text-gray-700 mb-1">Comentario</span>
+                                <textarea class="nk-textarea" placeholder="Describe tu experiencia..."></textarea>
+                            </label>
+
+                            <div class="md:col-span-2 flex items-center justify-end gap-2">
+                                <button class="nk-btn-secondary">Cancelar</button>
+                                <button class="nk-btn-primary"><i data-feather="send"></i> Enviar evaluación</button>
+                            </div>
+                        </form>
+                        <p class="text-sm text-gray-500 mt-3">Esto corresponde a la tabla
+                            <strong>EvaluacionPsicologo</strong> (UI simulada).
+                        </p>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="px-4 md:px-8 py-6 border-t border-gray-200 bg-white">
+                <div class="text-sm text-gray-500 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+                    <p>© 2025 NeuroKid.</p>
+                    <nav class="flex gap-4">
+                        <a href="../legales/privacidad.html" class="nk-footer-link">Privacidad</a>
+                        <a href="../legales/terminos.html" class="nk-footer-link">Términos</a>
+                        <a href="../legales/aviso-legal.html" class="nk-footer-link">Aviso Legal</a>
+                        <a href="../legales/cookies.html" class="nk-footer-link">Cookies</a>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ============ Modales ============ -->
+
+    <!-- Registrar Menor -->
+    <div id="modalRegistrarMenor" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="regMenorTitle">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="regMenorTitle" class="text-xl font-bold">Registrar menor</h3>
+                <button class="nk-btn-ghost" data-close="#modalRegistrarMenor" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Nombre</span>
+                    <input class="nk-input" placeholder="Nombre del menor" aria-required="true" />
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Apellido</span>
+                    <input class="nk-input" placeholder="Apellido del menor" aria-required="true" />
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Fecha de Nacimiento</span>
+                    <input type="date" class="nk-input" aria-required="true" />
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">DNI (opcional)</span>
+                    <input class="nk-input" placeholder="Documento" />
+                </label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalRegistrarMenor">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Crea registro en <strong>Menor</strong> vinculado al
+                <strong>Padre</strong>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Editar Menor -->
+    <div id="modalEditarMenor" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="editMenorTitle">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="editMenorTitle" class="text-xl font-bold">Editar menor</h3>
+                <button class="nk-btn-ghost" data-close="#modalEditarMenor" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Nombre</span>
+                    <input id="editNombre" class="nk-input" />
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Apellido</span>
+                    <input id="editApellido" class="nk-input" />
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Fecha de Nacimiento</span>
+                    <input id="editFecha" type="date" class="nk-input" />
+                </label>
+                <!-- <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Psicólogo asignado</span>
+                    <select class="nk-select">
+                        <option value="ana">Dra. Ana Martínez</option>
+                        <option value="carlos">Dr. Carlos Rojas</option>
+                    </select>
+                </label> -->
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalEditarMenor">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Edita registro en <strong>Menor</strong> y su
+                <strong>Asignación</strong> (UI).
+            </p>
+        </div>
+    </div>
+
+    <!-- Nueva Cita -->
+    <div id="modalNuevaCita" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="nuevaCitaTitle">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="nuevaCitaTitle" class="text-xl font-bold">Solicitar nueva cita</h3>
+                <button class="nk-btn-ghost" data-close="#modalNuevaCita" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Menor</span>
+                    <select id="selMenor" class="nk-select">
+                        <option value="lucas" data-psicologo-id="ana" data-psicologo-nombre="Dra. Ana Martínez">Lucas
+                            González</option>
+                        <option value="sofia" data-psicologo-id="carlos" data-psicologo-nombre="Dr. Carlos Rojas">Sofía
+                            González</option>
+                    </select>
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Psicólogo Asignado</span>
+                    <input type="text" id="selPsicologo" class="nk-input" disabled value="Dra. Ana Martínez" />
+                    <input type="hidden" id="hiddenPsicologoValue" name="psicologo_id" value="ana" />
+                </label>
+
+                <div class="md:col-span-2">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Disponibilidad</p>
+                    <div id="gridDisponibilidad" class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    </div>
+                </div>
+
+                <label class="md:col-span-2 block">
+                    <span class="block text-sm text-gray-700 mb-1">Motivo</span>
+                    <input class="nk-input" name="motivo" placeholder="Motivo de la cita" />
+                </label>
+
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button type="button" class="nk-btn-secondary" data-close="#modalNuevaCita">Cancelar</button>
+                    <button type="submit" class="nk-btn-primary"><i data-feather="calendar"></i> Agendar</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Crea registro en <strong>Cita</strong> y referencia
+                <strong>Asignación</strong> (UI).
+            </p>
+        </div>
+    </div>
+
+    <!-- Detalle Cita -->
+    <div id="modalDetalleCita" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="detalleCitaTitle">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="detalleCitaTitle" class="text-xl font-bold">Detalle de cita</h3>
+                <button class="nk-btn-ghost" data-close="#modalDetalleCita" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="nk-card p-4">
+                    <h4 class="font-semibold mb-2">Datos</h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li><strong>Fecha:</strong> 2025-05-12</li>
+                        <li><strong>Hora:</strong> 09:00–09:45</li>
+                        <li><strong>Menor:</strong> Lucas</li>
+                        <li><strong>Psicóloga:</strong> Ana Martínez</li>
+                        <li><strong>Motivo:</strong> Control mensual</li>
+                    </ul>
+                </div>
+                <div class="nk-card p-4">
+                    <h4 class="font-semibold mb-2">Hallazgos y tareas</h4>
+                    <p class="text-sm text-gray-700">Mejoras en atención sostenida; recomendar ejercicios de memoria 3x
+                        semana.</p>
+                    <div class="mt-3">
+                        <a class="nk-btn-secondary text-sm"><i data-feather="download"></i> Descargar PDF</a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-3">Campos mapean a <strong>Hallazgos</strong> y <strong>Tareas</strong>
+                de la tabla <strong>Cita</strong>.</p>
+        </div>
+    </div>
+
+    <!-- Evaluar Psicólogo (modal rápido) -->
+    <div id="modalEvaluar" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="evalTitle">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="evalTitle" class="text-xl font-bold">Evaluar psicólogo</h3>
+                <button class="nk-btn-ghost" data-close="#modalEvaluar" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Psicólogo</span>
+                    <input id="evalPsicologo" class="nk-input" value="—" readonly />
+                </label>
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Puntaje</span>
+                    <select class="nk-select">
+                        <option>5</option>
+                        <option>4</option>
+                        <option>3</option>
+                        <option>2</option>
+                        <option>1</option>
+                    </select>
+                </label>
+                <label class="md:col-span-2">
+                    <span class="block text-sm text-gray-700 mb-1">Comentario</span>
+                    <textarea class="nk-textarea" placeholder="Escribe tu comentario..."></textarea>
+                </label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalEvaluar">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="send"></i> Enviar</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Crea un registro en <strong>EvaluacionPsicologo</strong> (UI).</p>
+        </div>
+    </div>
+
+    <!-- AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Script global del sitio -->
+    <script src="../assets/app.js"></script>
+
+    <script>
+
+        const selMenor = document.getElementById('selMenor');
+        const inputPsicologo = document.getElementById('selPsicologo');
+        const hiddenPsicologo = document.getElementById('hiddenPsicologoValue');
+
+        const actualizarPsicologo = () => {
+            // Obtiene la opción de menor actualmente seleccionada
+            const selectedOption = selMenor.options[selMenor.selectedIndex];
+
+            // Obtiene los datos del psicólogo asignado desde los atributos data-
+            const psicologoId = selectedOption.getAttribute('data-psicologo-id');
+            const psicologoNombre = selectedOption.getAttribute('data-psicologo-nombre');
+
+            // Actualiza el campo de texto visible (deshabilitado)
+            inputPsicologo.value = psicologoNombre || '';
+
+            // Actualiza el campo oculto con el ID del psicólogo para enviar en el formulario
+            hiddenPsicologo.value = psicologoId || '';
+
+            // *** AÑADIR LÓGICA AQUÍ: ***
+            // Aquí es donde deberías llamar a la función para recargar la disponibilidad
+            // horaria (gridDisponibilidad) usando el nuevo psicologoId.
+            // Ejemplo: cargarDisponibilidad(psicologoId);
+        };
+
+        // 1. Ejecutar al cargar para establecer el valor inicial
+        actualizarPsicologo();
+
+        // 2. Ejecutar cada vez que el menor cambia
+        selMenor.addEventListener('change', actualizarPsicologo);
+        // Init AOS
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        AOS.init({ duration: reduceMotion ? 0 : 600, once: true });
+
+        // Iconos
+        feather.replace();
+
+        // ====== Tabs (sidebar) ======
+        const tabButtons = document.querySelectorAll(".nk-tab");
+        const tabPanels = ["#tab-inicio", "#tab-menores", "#tab-citas", "#tab-progreso", "#tab-recursos", "#tab-evaluaciones"].map(s => document.querySelector(s));
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.setAttribute("aria-selected", "false"));
+                btn.setAttribute("aria-selected", "true");
+                const target = btn.getAttribute("data-target");
+                tabPanels.forEach(p => {
+                    if (!p) return;
+                    const show = "#" + p.id === target;
+                    p.classList.toggle("hidden", !show);
+                    p.setAttribute("aria-hidden", show ? "false" : "true");
+                });
+                window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+            });
+        });
+
+        // Permitir navegación desde botones con data-goto
+        document.body.addEventListener("click", (e) => {
+            const a = e.target.closest("[data-goto]");
+            if (!a) return;
+            const target = a.getAttribute("data-goto");
+            const btn = [...tabButtons].find(b => b.getAttribute("data-target") === target);
+            if (btn) btn.click();
+        });
+
+        // ====== Drawer móvil (simple) ======
+        const btnOpenDrawer = document.getElementById("btnOpenDrawer");
+        if (btnOpenDrawer) {
+            btnOpenDrawer.addEventListener("click", () => {
+                // En este template, el sidebar es fijo en desktop. Para móvil, puedes abrir un offcanvas si deseas.
+                alert("Menú móvil (demo): usa las pestañas de la parte superior en desktop.");
+            });
+        }
+
+        // ====== Modales (open/close) ======
+        function openModal(id) {
+            const el = document.querySelector(id);
+            if (!el) return;
+            el.classList.add("is-open");
+            el.setAttribute("aria-hidden", "false");
+        }
+        function closeModal(id) {
+            const el = document.querySelector(id);
+            if (!el) return;
+            el.classList.remove("is-open");
+            el.setAttribute("aria-hidden", "true");
+        }
+        document.body.addEventListener("click", (e) => {
+            const openBtn = e.target.closest("[data-open]");
+            if (openBtn) {
+                e.preventDefault();
+                openModal(openBtn.getAttribute("data-open"));
+            }
+            const closeBtn = e.target.closest("[data-close]");
+            if (closeBtn) {
+                e.preventDefault();
+                closeModal(closeBtn.getAttribute("data-close"));
+            }
+        });
+        // Cerrar modal si clic en backdrop
+        document.querySelectorAll(".nk-modal-backdrop").forEach(b => {
+            b.addEventListener("mousedown", (e) => { if (e.target === b) b.classList.remove("is-open"); });
+        });
+
+        // ====== Editar Menor: precargar datos demo ======
+        document.querySelectorAll("[data-open='#modalEditarMenor']").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const menor = btn.getAttribute("data-menor");
+                if (menor === "lucas") {
+                    document.getElementById("editNombre").value = "Lucas";
+                    document.getElementById("editApellido").value = "González";
+                    document.getElementById("editFecha").value = "2019-02-18";
+                } else {
+                    document.getElementById("editNombre").value = "Sofía";
+                    document.getElementById("editApellido").value = "González";
+                    document.getElementById("editFecha").value = "2021-06-05";
+                }
+            });
+        });
+
+        // ====== Nueva Cita: disponibilidad simulada (por psicólogo) ======
+        const disponibilidad = {
+            ana: [
+                { dia: "Lunes", hora: "10:00" }, { dia: "Lunes", hora: "10:45" },
+                { dia: "Miércoles", hora: "11:00" }, { dia: "Viernes", hora: "09:00" }
+            ],
+            carlos: [
+                { dia: "Martes", hora: "11:00" }, { dia: "Martes", hora: "11:45" },
+                { dia: "Jueves", hora: "10:15" }, { dia: "Jueves", hora: "11:00" }
+            ]
+        };
+        const gridDisp = document.getElementById("gridDisponibilidad");
+        const selPsico = document.getElementById("selPsicologo");
+        function renderSlots() {
+            if (!gridDisp || !selPsico) return;
+            gridDisp.innerHTML = "";
+            (disponibilidad[selPsico.value] || []).forEach(s => {
+                const btn = document.createElement("button");
+                btn.className = "nk-btn-secondary text-sm";
+                btn.textContent = `${s.dia} · ${s.hora}`;
+                btn.type = "button";
+                btn.addEventListener("click", () => {
+                    // marcar como seleccionado
+                    gridDisp.querySelectorAll("button").forEach(b => b.classList.remove("ring-2", "ring-indigo-300"));
+                    btn.classList.add("ring-2", "ring-indigo-300");
+                });
+                gridDisp.appendChild(btn);
+            });
+        }
+        if (selPsico) { selPsico.addEventListener("change", renderSlots); }
+        renderSlots();
+
+        // ====== Evaluar Psicólogo (paso de nombre) ======
+        document.querySelectorAll("[data-open='#modalEvaluar']").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const nombre = btn.getAttribute("data-psicologo") || "—";
+                const input = document.getElementById("evalPsicologo");
+                if (input) input.value = nombre;
+            });
+        });
+
+        // ====== Recursos: toggle favorito (UI) ======
+        document.querySelectorAll("[aria-label='Favorito']").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const isFav = btn.getAttribute("data-fav") === "true";
+                btn.setAttribute("data-fav", String(!isFav));
+                btn.classList.toggle("text-yellow-500", !isFav);
+            });
+        });
+
+        // ====== Charts (mock coherente con Informe) ======
+        const ctxEmo = document.getElementById("chartEmocional");
+        const ctxCog = document.getElementById("chartCognitivo");
+
+        const baseMensual = {
+            labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+            emocional: [65, 59, 70, 71, 76, 80],
+            cognitivo: [55, 60, 65, 68, 72, 75]
+        };
+
+        const emoChart = new Chart(ctxEmo, {
+            type: "line",
+            data: { labels: baseMensual.labels, datasets: [{ label: "Regulación emocional", data: baseMensual.emocional, borderColor: "#5E81F4", backgroundColor: "rgba(94,129,244,.12)", tension: .3, fill: true }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false, min: 50, max: 100 } } }
+        });
+
+        const cogChart = new Chart(ctxCog, {
+            type: "line",
+            data: { labels: baseMensual.labels, datasets: [{ label: "Desarrollo cognitivo", data: baseMensual.cognitivo, borderColor: "#FF7AC6", backgroundColor: "rgba(255,122,198,.12)", tension: .3, fill: true }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false, min: 50, max: 100 } } }
+        });
+
+        // Selector de rango (mensual/semanal) — cambia labels/datos mock
+        document.getElementById("selRangoProgreso").addEventListener("change", (e) => {
+            const tipo = e.target.value;
+            if (tipo === "semanal") {
+                emoChart.data.labels = ["Sem1", "Sem2", "Sem3", "Sem4"];
+                emoChart.data.datasets[0].data = [72, 74, 78, 80];
+                cogChart.data.labels = ["Sem1", "Sem2", "Sem3", "Sem4"];
+                cogChart.data.datasets[0].data = [68, 70, 73, 75];
+            } else {
+                emoChart.data.labels = baseMensual.labels;
+                emoChart.data.datasets[0].data = baseMensual.emocional;
+                cogChart.data.labels = baseMensual.labels;
+                cogChart.data.datasets[0].data = baseMensual.cognitivo;
+            }
+            emoChart.update(); cogChart.update();
+        });
+
+
+
+        /* ========= Datos por menor y por rango ========= */
+        const progresoData = {
+            lucas: {
+                mensual: {
+                    labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+                    emocional: [65, 60, 70, 71, 76, 80],
+                    cognitivo: [55, 60, 64, 67, 71, 75],
+                },
+                semanal: {
+                    labels: ["Sem 1", "Sem 2", "Sem 3", "Sem 4"],
+                    emocional: [70, 72, 74, 76],
+                    cognitivo: [62, 64, 67, 70],
+                },
+            },
+            sofia: {
+                mensual: {
+                    labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+                    emocional: [60, 62, 66, 69, 73, 78],
+                    cognitivo: [50, 57, 61, 66, 70, 74],
+                },
+                semanal: {
+                    labels: ["Sem 1", "Sem 2", "Sem 3", "Sem 4"],
+                    emocional: [68, 70, 72, 75],
+                    cognitivo: [60, 63, 66, 69],
+                },
+            },
+        };
+
+        /* ========= Util: normalizar texto para mapear claves aunque haya acentos ========= */
+        const normalizeKey = (s) => (s || "")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .trim();
+
+        /* Si por UI custom el <select> no tiene value válido, mapeamos por texto */
+        function getSelectedMenorKey() {
+            const sel = document.getElementById("selMenorProgreso");
+            const val = normalizeKey(sel.value);
+            if (progresoData[val]) return val;
+
+            const text = normalizeKey(sel.options[sel.selectedIndex]?.text);
+            if (text.includes("lucas")) return "lucas";
+            if (text.includes("sofia")) return "sofia";
+            return "lucas";
+        }
+
+        /* ========= Config base Chart.js ========= */
+        function makeLineConfig({ labels, data, label }) {
+            return {
+                type: "line",
+                data: {
+                    labels,
+                    datasets: [{
+                        label,
+                        data,
+                        tension: 0.35,
+                        fill: true,
+                        borderWidth: 2,
+                        pointRadius: 3,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: true } },
+                    scales: {
+                        y: { suggestedMin: 50, suggestedMax: 100, grid: { drawBorder: false } },
+                        x: { grid: { display: false } },
+                    },
+                },
+            };
+        }
+
+        /* ========= Render seguro (destruye por canvas usando Chart.getChart) ========= */
+        function renderCharts() {
+            const rango = document.getElementById("selRangoProgreso").value;   // mensual | semanal
+            const menorKey = getSelectedMenorKey();                            // lucas | sofia
+            const src = progresoData[menorKey][rango];
+
+            const emoCanvas = document.getElementById("chartEmocional");
+            const cogCanvas = document.getElementById("chartCognitivo");
+
+            const oldEmo = Chart.getChart(emoCanvas);
+            const oldCog = Chart.getChart(cogCanvas);
+            if (oldEmo) oldEmo.destroy();
+            if (oldCog) oldCog.destroy();
+
+            new Chart(emoCanvas, makeLineConfig({
+                labels: src.labels, data: src.emocional, label: "Regulación emocional"
+            }));
+            new Chart(cogCanvas, makeLineConfig({
+                labels: src.labels, data: src.cognitivo, label: "Desarrollo cognitivo"
+            }));
+
+            filtrarTablaPorMenor();
+        }
+
+        /* ========= Filtrar tabla por menor visible (ignora acentos/mayúsculas) ========= */
+        function filtrarTablaPorMenor() {
+            const sel = document.getElementById("selMenorProgreso");
+            const nombreVisible = sel.options[sel.selectedIndex]?.text?.trim() || "";
+
+            const target = normalizeKey(nombreVisible);
+            const rows = document.querySelectorAll("#tbodyInformes tr");
+            rows.forEach(tr => {
+                const rowName = normalizeKey(tr.getAttribute("data-menor"));
+                tr.style.display = rowName === target ? "" : "none";
+            });
+        }
+
+        /* ========= Listeners robustos ========= */
+        (function attachListenersRobustos() {
+            const selMenor = document.getElementById("selMenorProgreso");
+            const selRango = document.getElementById("selRangoProgreso");
+
+            // Listeners directos
+            selMenor.addEventListener("change", renderCharts);
+            selRango.addEventListener("change", renderCharts);
+
+            // Fallback por si tu framework reemplaza el <select> y pierde listeners
+            document.addEventListener("change", (e) => {
+                if (e.target && (e.target.id === "selMenorProgreso" || e.target.id === "selRangoProgreso")) {
+                    renderCharts();
+                }
+            });
+        })();
+
+        /* ========= Primera carga ========= */
+        document.addEventListener("DOMContentLoaded", () => {
+            renderCharts();
+        });
+    </script>
+</body>
+
+</html>

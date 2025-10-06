@@ -1,0 +1,214 @@
+<!-- File: /auth/login.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuroKid | Iniciar sesión</title>
+
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="antialiased bg-gray-50">
+    <header class="w-full bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+            <a href="../index.html#inicio" class="flex items-center gap-3">
+                <img src="http://static.photos/blue/200x200/42" class="h-9 w-9 rounded-full" alt="Logo NeuroKid" />
+                <span class="text-xl font-bold text-indigo-600">NeuroKid</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm">
+                <a href="../index.html#equipo" class="nk-link">Nuestro equipo</a>
+                <a href="../index.html#soluciones" class="nk-link">Soluciones</a>
+                <a href="../index.html#impacto" class="nk-link">Impacto</a>
+                <a href="../index.html#recursos" class="nk-link">Recursos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-10">
+        <section class="w-full max-w-5xl grid md:grid-cols-5 gap-8 items-stretch" data-aos="fade-up">
+            <!-- Lado izquierdo -->
+            <div class="md:col-span-2">
+                <div class="nk-card p-6 h-full">
+                    <h1 class="text-2xl font-bold">Bienvenido/a</h1>
+                    <p class="text-gray-600 mt-1">
+                        Inicia sesión para acceder a tu panel personalizado.
+                    </p>
+
+                    <!-- Selector de rol -->
+                    <form class="mt-6 space-y-4" onsubmit="return false;" aria-labelledby="titleLogin">
+                        <h2 id="titleLogin" class="sr-only">Formulario de inicio de sesión</h2>
+
+                        <label class="block">
+                            <span class="block text-sm text-gray-700 mb-1">Rol</span>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" class="nk-chip nk-chip--active" data-role="padre">
+                                    <i data-feather="user"></i> Padre
+                                </button>
+                                <button type="button" class="nk-chip" data-role="psicologo">
+                                    <i data-feather="heart"></i> Psicólogo
+                                </button>
+                                <button type="button" class="nk-chip" data-role="admin">
+                                    <i data-feather="shield"></i> Admin
+                                </button>
+                            </div>
+                            <input id="roleHidden" type="hidden" value="padre" aria-hidden="true" />
+                        </label>
+
+                        <label class="block">
+                            <span class="block text-sm text-gray-700 mb-1">Correo electrónico</span>
+                            <input type="email" class="nk-input" placeholder="tu@correo.com" autocomplete="username"
+                                required />
+                        </label>
+
+                        <label class="block">
+                            <span class="block text-sm text-gray-700 mb-1">Contraseña</span>
+                            <div class="relative">
+                                <input id="password" type="password" class="nk-input pr-10" placeholder="••••••••"
+                                    autocomplete="current-password" required />
+                                <button type="button"
+                                    class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
+                                    aria-label="Mostrar u ocultar contraseña" data-toggle-password>
+                                    <i data-feather="eye"></i>
+                                </button>
+                            </div>
+                        </label>
+
+                        <div class="flex items-center justify-between">
+                            <label class="inline-flex items-center gap-2 text-sm">
+                                <input type="checkbox" class="nk-checkbox" /> Recordarme
+                            </label>
+                            <a href="#" class="nk-link text-sm">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <button id="btnLogin" class="nk-btn-primary w-full" aria-label="Iniciar sesión">
+                            <i data-feather="log-in"></i> Iniciar sesión
+                        </button>
+
+                        <p class="text-sm text-gray-600 text-center">
+                            ¿No tienes cuenta?
+                            <a href="./register.html" class="nk-link">Crear una cuenta</a>
+                        </p>
+                    </form>
+
+                    <div class="mt-6">
+                        <div class="relative">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-200"></div>
+                            </div>
+                            <div class="relative flex justify-center text-xs">
+                                <span class="px-3 bg-white text-gray-500">o continuar con</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-3 gap-2">
+                            <button class="nk-btn-ghost w-full text-sm"><i data-feather="mail"></i> Gmail</button>
+                            <button class="nk-btn-ghost w-full text-sm"><i data-feather="smartphone"></i> Apple</button>
+                            <button class="nk-btn-ghost w-full text-sm"><i data-feather="globe"></i> SSO</button>
+                        </div>
+                        <p class="mt-2 text-[11px] text-gray-500">Demo UI: estos botones no realizan autenticación real.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lado derecho -->
+            <div class="md:col-span-3">
+                <div class="nk-card p-0 overflow-hidden h-full">
+                    <div class="hero-gradient h-36 w-full"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold">Accede según tu rol</h3>
+                        <p class="text-gray-600 mt-1">Cada rol tiene un panel y funcionalidades específicas.</p>
+
+                        <ul class="mt-4 space-y-3 text-sm text-gray-700">
+                            <li class="flex gap-2"><i data-feather="check-circle"
+                                    class="text-green-500"></i><span><strong>Padre/Apoderado:</strong> registrar y
+                                    editar menores, ver progreso, agendar citas, favoritos y evaluar psicólogos.</span>
+                            </li>
+                            <li class="flex gap-2"><i data-feather="check-circle"
+                                    class="text-green-500"></i><span><strong>Psicólogo:</strong> disponibilidad,
+                                    asignaciones, gestión de citas, informes y recursos.</span></li>
+                            <li class="flex gap-2"><i data-feather="check-circle"
+                                    class="text-green-500"></i><span><strong>Administrador:</strong> CRUD de usuarios,
+                                    asignaciones, moderación de recursos y módulo legal.</span></li>
+                        </ul>
+
+                        <div class="mt-6 grid sm:grid-cols-3 gap-3">
+                            <a href="../dashboards/padres.html" class="nk-btn-secondary w-full">
+                                <i data-feather="user"></i> Ir a Padres
+                            </a>
+                            <a href="../dashboards/psicologos.html" class="nk-btn-secondary w-full">
+                                <i data-feather="heart"></i> Ir a Psicólogos
+                            </a>
+                            <a href="../dashboards/admin.html" class="nk-btn-secondary w-full">
+                                <i data-feather="shield"></i> Ir a Admin
+                            </a>
+                        </div>
+
+                        <p class="text-[11px] text-gray-500 mt-2">Atajos de demo: saltan directo a cada dashboard (sin
+                            auth real).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="px-4 md:px-8 py-6 border-t border-gray-200 bg-white">
+        <div
+            class="max-w-7xl mx-auto text-sm text-gray-500 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+            <p>© 2025 NeuroKid.</p>
+            <nav class="flex gap-4">
+                <a href="../legales/privacidad.html" class="nk-footer-link">Privacidad</a>
+                <a href="../legales/terminos.html" class="nk-footer-link">Términos</a>
+                <a href="../legales/aviso-legal.html" class="nk-footer-link">Aviso Legal</a>
+                <a href="../legales/cookies.html" class="nk-footer-link">Cookies</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../assets/app.js"></script>
+    <script>
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        AOS.init({ duration: reduceMotion ? 0 : 600, once: true });
+        feather.replace();
+
+        // Selector de rol con chips
+        const chips = document.querySelectorAll(".nk-chip");
+        const roleHidden = document.getElementById("roleHidden");
+        chips.forEach(chip => {
+            chip.addEventListener("click", () => {
+                chips.forEach(c => c.classList.remove("nk-chip--active"));
+                chip.classList.add("nk-chip--active");
+                roleHidden.value = chip.getAttribute("data-role");
+            });
+        });
+
+        // Mostrar / ocultar contraseña
+        const toggleBtn = document.querySelector("[data-toggle-password]");
+        const passInput = document.getElementById("password");
+        toggleBtn.addEventListener("click", () => {
+            const isPwd = passInput.type === "password";
+            passInput.type = isPwd ? "text" : "password";
+            toggleBtn.innerHTML = isPwd ? feather.icons["eye-off"].toSvg() : feather.icons["eye"].toSvg();
+        });
+
+        // Demo de redirección según rol
+        document.getElementById("btnLogin").addEventListener("click", () => {
+            const role = roleHidden.value;
+            if (role === "padre") window.location.href = "../dashboards/padres.html";
+            else if (role === "psicologo") window.location.href = "../dashboards/psicologos.html";
+            else if (role === "admin") window.location.href = "../dashboards/admin.html";
+        });
+    </script>
+</body>
+
+</html>

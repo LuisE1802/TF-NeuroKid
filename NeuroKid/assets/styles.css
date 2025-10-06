@@ -1,0 +1,361 @@
+/* ==========================================================================
+   NeuroKid – Stylesheet base
+   - Variables, tokens y helpers
+   - Componentes (botones, tarjetas, formularios, modales, tablas)
+   - Utilidades responsivas y accesibilidad
+   Nota: Tailwind (CDN) ya está incluido. Esto son overrides y estilos compartidos.
+   ========================================================================== */
+
+/* =========================
+   1) TOKENS / VARIABLES
+   ========================= */
+:root{
+  /* Paleta (alineada al sitio de referencia) */
+  --nk-primary: #5E81F4;
+  --nk-secondary: #1C1D21;
+  --nk-accent: #FF7AC6;
+  --nk-bg: #F5F5FB;
+  --nk-dark: #1C1D21;
+
+  /* UI */
+  --nk-card: #ffffff;
+  --nk-border: #e7e8ee;
+  --nk-muted: #6b7280;
+
+  /* Estados */
+  --nk-success: #10B981;
+  --nk-warning: #F59E0B;
+  --nk-danger:  #EF4444;
+
+  /* Tipografía */
+  --nk-radius: 14px;
+  --nk-radius-sm: 10px;
+  --nk-shadow-sm: 0 8px 20px rgba(0,0,0,.06);
+  --nk-shadow-md: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* Modo oscuro opt-in (si lo quieres, agrega .dark al <html> o <body>) */
+.dark{
+  --nk-bg: #0f1115;
+  --nk-card: #171923;
+  --nk-border: #2a2e3d;
+  --nk-dark: #e5e7eb;
+  --nk-muted: #9ca3af;
+}
+
+/* =========================
+   2) BASE
+   ========================= */
+html{ scroll-behavior: smooth; }
+body{
+  background: var(--nk-bg);
+  color: var(--nk-dark);
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+/* Links del navbar */
+.nk-link{
+  color: #374151;
+  font-weight: 500;
+  transition: color .2s ease;
+}
+.nk-link:hover,
+.nk-link:focus{
+  color: var(--nk-primary);
+}
+
+.nk-link.nk-cta{
+  padding: .45rem .9rem;
+  border-radius: 10px;
+  border: 1px solid var(--nk-border);
+  color: var(--nk-primary);
+  background: #fff;
+}
+.nk-link.nk-cta:hover{ background: #f8faff; border-color: #dbe0ff; }
+
+.nk-link-mobile{
+  display: block;
+  padding: .6rem .25rem;
+  color: #374151;
+  border-radius: 8px;
+}
+.nk-link-mobile:hover{ background: #f8f8ff; color: var(--nk-primary); }
+
+/* Footer links */
+.nk-footer-link{
+  color: #d1d5db;
+  transition: color .2s ease;
+}
+.nk-footer-link:hover{ color:#fff; }
+
+/* =========================
+   3) COMPONENTES
+   ========================= */
+
+/* 3.1 Botones */
+.nk-btn-primary,
+.nk-btn-secondary,
+.nk-btn-ghost{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: .7rem 1rem;
+  border-radius: 12px;
+  transition: transform .06s ease, box-shadow .2s ease, filter .2s ease;
+  will-change: transform;
+}
+
+.nk-btn-primary{
+  background: var(--nk-primary);
+  color: #fff;
+  box-shadow: var(--nk-shadow-sm);
+}
+.nk-btn-primary:hover{ filter: brightness(.94); }
+.nk-btn-primary:active{ transform: translateY(1px); }
+
+.nk-btn-secondary{
+  background: #fff;
+  color: var(--nk-secondary);
+  border: 1px solid var(--nk-border);
+}
+.nk-btn-secondary:hover{ background: #f9fafb; }
+.nk-btn-secondary:active{ transform: translateY(1px); }
+
+.nk-btn-ghost{
+  background: transparent;
+  color: var(--nk-primary);
+  border: 1px dashed #cbd5e1;
+}
+.nk-btn-ghost:hover{ background: #f3f6ff; }
+
+/* 3.2 Tarjetas */
+.nk-card{
+  background: var(--nk-card);
+  border: 1px solid var(--nk-border);
+  border-radius: var(--nk-radius);
+  box-shadow: var(--nk-shadow-sm);
+}
+
+.card-hover{
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.card-hover:hover{
+  transform: translateY(-4px);
+  box-shadow: var(--nk-shadow-md);
+  border-color: #dfe4ff;
+}
+
+/* 3.3 Badges / etiquetas */
+.nk-badge{
+  display: inline-flex;
+  align-items: center;
+  padding: .25rem .5rem;
+  font-size: .75rem;
+  border-radius: 9999px;
+  border: 1px solid var(--nk-border);
+  background: #fff;
+  color: #374151;
+}
+.nk-badge--success{ border-color:#b7f3e0; background:#ecfdf5; color:#065f46; }
+.nk-badge--warn{ border-color:#fee6bf; background:#fffbeb; color:#92400e; }
+.nk-badge--danger{ border-color:#fecaca; background:#fef2f2; color:#991b1b; }
+
+/* 3.4 Formularios */
+.nk-input,
+.nk-select,
+.nk-textarea{
+  width: 100%;
+  padding: .7rem .9rem;
+  border-radius: 12px;
+  border: 1px solid var(--nk-border);
+  background: #fff;
+  color: #111827;
+  transition: border-color .2s, box-shadow .2s;
+}
+.nk-textarea{ min-height: 120px; resize: vertical; }
+
+.nk-input::placeholder,
+.nk-textarea::placeholder{ color: #9ca3af; }
+
+.nk-input:focus,
+.nk-select:focus,
+.nk-textarea:focus{
+  outline: none;
+  border-color: #c7d3ff;
+  box-shadow: 0 0 0 3px rgba(94,129,244,.25);
+}
+
+/* 3.5 Toggle / switches simples (estético) */
+.nk-switch{
+  position: relative; width: 44px; height: 24px;
+  background: #e5e7eb; border-radius: 999px; cursor: pointer;
+  transition: background .2s ease;
+}
+.nk-switch::after{
+  content:""; position: absolute; top:2px; left:2px; width:20px; height:20px;
+  background:#fff; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  transition: transform .2s ease;
+}
+.nk-switch[aria-checked="true"]{ background: var(--nk-primary); }
+.nk-switch[aria-checked="true"]::after{ transform: translateX(20px); }
+
+/* 3.6 Modales */
+.nk-modal-backdrop{
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  display: none; align-items: center; justify-content: center; z-index: 60;
+}
+.nk-modal{
+  background: var(--nk-card);
+  border: 1px solid var(--nk-border);
+  border-radius: var(--nk-radius);
+  width: 100%; max-width: 560px; padding: 1.25rem;
+  box-shadow: var(--nk-shadow-md);
+}
+.nk-modal-backdrop.is-open{ display:flex; }
+
+/* 3.7 Tabs (UI simple) */
+.nk-tabs{
+  display: flex; gap: .5rem; background:#fff; border:1px solid var(--nk-border);
+  border-radius: 12px; padding: .35rem;
+}
+.nk-tab{
+  flex: 1; text-align: center; padding:.6rem .8rem; border-radius: 10px; font-weight:600;
+  color:#4b5563; cursor: pointer; transition: background .2s, color .2s;
+}
+.nk-tab[aria-selected="true"]{ background:#edf2ff; color:#3730a3; }
+
+/* 3.8 Tabla */
+.nk-table{
+  width:100%; border-collapse: separate; border-spacing:0;
+  background:#fff; border:1px solid var(--nk-border); border-radius: 12px; overflow:hidden;
+}
+.nk-table thead th{
+  background:#f8fafc; text-align:left; font-size:.75rem; text-transform:uppercase;
+  letter-spacing:.04em; color:#6b7280; padding:.9rem 1rem; border-bottom:1px solid var(--nk-border);
+}
+.nk-table tbody td{
+  padding: 1rem; border-bottom: 1px solid var(--nk-border); color:#374151;
+}
+.nk-table tbody tr:hover{ background:#fafbff; }
+
+/* 3.9 Tarjetas de recurso */
+.nk-resource-card img{ display:block; }
+.nk-resource-actions{ display:flex; align-items:center; justify-content:space-between; }
+
+/* 3.10 Grillas auxiliares */
+.nk-grid{
+  display: grid; gap: 1rem;
+}
+@media (min-width: 640px){
+  .nk-grid--2{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px){
+  .nk-grid--3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nk-grid--4{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* =========================
+   4) ACCESIBILIDAD
+   ========================= */
+.focus-ring:focus{
+  outline: 3px solid rgba(94,129,244,.5);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/* Prefiere menos movimiento: desactiva transiciones clave */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* Ratio de contraste forzado (alta visibilidad de botones primarios) */
+@media (forced-colors: active){
+  .nk-btn-primary{ border: 1px solid CanvasText; }
+}
+
+/* =========================
+   5) LAYOUTS / SECCIONES
+   ========================= */
+
+/* Hero */
+.nk-hero-gradient{
+  background: linear-gradient(135deg, var(--nk-primary) 0%, var(--nk-accent) 100%);
+}
+
+/* Cabecera sticky efecto blur ya se logra con clases tailwind en index */
+
+/* Sección CTA */
+.nk-cta-section{
+  background: #eef1ff;
+  border: 1px dashed #cfd8ff;
+  border-radius: 16px;
+}
+
+/* =========================
+   6) UTILIDADES
+   ========================= */
+
+/* Limitar ancho de texto en párrafos largos */
+.nk-prose{
+  max-width: 70ch;
+}
+
+/* Avatares */
+.nk-avatar{ width: 40px; height: 40px; border-radius: 9999px; object-fit: cover; }
+
+/* Iconos */
+i[data-feather]{ width: 20px; height: 20px; }
+
+/* Espaciadores pequeños */
+.nk-spacer-1{ height: .25rem; }
+.nk-spacer-2{ height: .5rem; }
+.nk-spacer-3{ height: 1rem; }
+
+/* =========================
+   7) OVERRIDES ESPECÍFICOS
+   ========================= */
+
+/* Botones del modal de login (grid de 3) */
+#loginModal .nk-btn-secondary{
+  display:flex; align-items:center; justify-content:center; gap:.4rem;
+  padding:.6rem .8rem;
+}
+
+/* En móviles: ajustar padding del navMobile (ya con Tailwind) */
+
+/* =========================
+   8) PLACEHOLDERS / DEMO
+   ========================= */
+
+/* Placeholders para paneles (se reutilizarán en dashboards/*.html) */
+.nk-stat{
+  background: #fff;
+  border: 1px solid var(--nk-border);
+  border-radius: 12px;
+  padding: 1rem;
+  display:flex; align-items:center; gap:.8rem;
+}
+.nk-stat i[data-feather]{ opacity:.7; }
+
+/* Estado/etiquetas en listas de citas */
+.badge-status{
+  padding:.2rem .5rem; border-radius:9999px; font-size:.72rem; font-weight:600;
+  border:1px solid var(--nk-border);
+}
+.badge-status--pending{ background:#fffbeb; color:#92400e; border-color:#fde68a; }
+.badge-status--done{ background:#ecfdf5; color:#065f46; border-color:#a7f3d0; }
+.badge-status--cancel{ background:#fef2f2; color:#991b1b; border-color:#fecaca; }
+
+/* =========================
+   9) LEGAL PAGES
+   ========================= */
+.legal-hero{
+  background: #eef2ff;
+  border-bottom: 1px solid #e5e7eb;
+}
+.legal-prose h2{ font-weight:700; margin-top:1.25rem; }
+.legal-prose p, .legal-prose li{ color:#4b5563; }
+.legal-prose a{ color: var(--nk-primary); text-decoration: underline; }

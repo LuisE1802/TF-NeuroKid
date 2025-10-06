@@ -1,0 +1,562 @@
+<!-- File: index.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- ========= META ========= -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuroKid | Desarrollo Neurocognitivo Infantil</title>
+    <meta name="description" content="Plataforma integral para el seguimiento y desarrollo neurocognitivo infantil." />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+
+    <!-- ========= FUENTES & ICONOS ========= -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- ========= TAILWIND (CDN) ========= -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ========= ESTILOS PROPIOS =========
+       Este archivo contendrá variables de color, helpers y overrides.
+       Te lo envío en el siguiente mensaje como /assets/styles.css
+  -->
+    <link rel="stylesheet" href="./assets/styles.css" />
+
+    <style>
+        /* Fallback mínimo por si styles.css no carga aún (se sobreescribe) */
+        :root {
+            --nk-primary: #5E81F4;
+            --nk-secondary: #1C1D21;
+            --nk-accent: #FF7AC6;
+            --nk-bg: #F5F5FB;
+            --nk-dark: #1C1D21;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--nk-bg);
+            color: var(--nk-dark);
+        }
+
+        .nk-btn-primary {
+            background: var(--nk-primary);
+            color: #fff;
+        }
+
+        .nk-btn-primary:hover {
+            filter: brightness(.92);
+        }
+
+        .nk-hero-gradient {
+            background: linear-gradient(135deg, var(--nk-primary) 0%, var(--nk-accent) 100%);
+        }
+
+        .card-hover {
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
+        }
+
+        .focus-ring:focus {
+            outline: 3px solid #a3b5ff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- ========= NAVBAR ========= -->
+    <nav class="bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-gray-100 fixed w-full z-50"
+        role="navigation" aria-label="Principal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center gap-3 focus-ring" aria-label="Ir al inicio">
+                    <img src="http://static.photos/blue/200x200/42" class="h-9 w-9 rounded-full" alt="Logo NeuroKid" />
+                    <span class="text-lg sm:text-xl font-bold text-indigo-600">NeuroKid</span>
+                </a>
+
+                <!-- Links desktop -->
+                <div class="hidden md:flex items-center gap-7">
+                    <a href="#inicio" class="nk-link">Inicio</a>
+                    <a href="#equipo" class="nk-link">Nuestro Equipo</a>
+                    <a href="#soluciones" class="nk-link">Nuestras Soluciones</a>
+                    <a href="#impacto" class="nk-link">Impacto en la Educación</a>
+                    <a href="#recursos" class="nk-link">Recursos</a>
+                    <a href="#login" class="nk-link">Login</a>
+                    <a href="#registro" class="nk-link nk-cta">Registrarse</a>
+                </div>
+
+                <!-- Mobile button -->
+                <button id="btnMobile" class="md:hidden p-2 rounded-lg border border-gray-200 focus-ring"
+                    aria-expanded="false" aria-controls="navMobile" aria-label="Abrir menú">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menú mobile -->
+        <div id="navMobile" class="md:hidden hidden border-t border-gray-100 bg-white" role="menu"
+            aria-label="Menú móvil">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
+                <a role="menuitem" href="#inicio" class="nk-link-mobile">Inicio</a>
+                <a role="menuitem" href="#equipo" class="nk-link-mobile">Nuestro Equipo</a>
+                <a role="menuitem" href="#soluciones" class="nk-link-mobile">Nuestras Soluciones</a>
+                <a role="menuitem" href="#impacto" class="nk-link-mobile">Impacto en la Educación</a>
+                <a role="menuitem" href="#recursos" class="nk-link-mobile">Recursos</a>
+                <a role="menuitem" href="#login" class="nk-link-mobile">Login</a>
+                <a role="menuitem" href="#registro" class="nk-link-mobile font-medium text-indigo-600">Registrarse</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========= HERO ========= -->
+    <header id="inicio" class="nk-hero-gradient text-white pt-28 sm:pt-32 pb-16 sm:pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center" data-aos="fade">
+            <div>
+                <h1 class="text-4xl sm:text-5xl font-bold leading-tight">Potenciamos el desarrollo neurocognitivo
+                    infantil</h1>
+                <p class="text-white/90 text-lg mt-5">
+                    Seguimiento, informes y recursos para familias y especialistas. Tres roles: Padre/Apoderado,
+                    Psicólogo y Administrador.
+                </p>
+                <div class="flex flex-wrap gap-3 mt-8">
+                    <a href="#login"
+                        class="nk-btn-primary px-6 py-3 rounded-lg font-medium focus-ring inline-flex items-center">
+                        <i data-feather="log-in" class="mr-2 h-5 w-5"></i> Iniciar sesión
+                    </a>
+                    <a href="#soluciones"
+                        class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 focus-ring inline-flex items-center">
+                        Conoce más <i data-feather="arrow-right" class="ml-2 h-5 w-5"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <img src="http://static.photos/people/640x360/1" alt="Niños aprendiendo"
+                    class="rounded-xl shadow-2xl" />
+            </div>
+        </div>
+    </header>
+
+    <!-- ========= EQUIPO ========= -->
+    <section id="equipo" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-center">Nuestro Equipo</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mt-3">
+                Psicología infantil, neuropsicología y terapia ocupacional orientadas al desarrollo integral.
+            </p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                <!-- Card -->
+                <article class="bg-gray-50 rounded-xl p-6 shadow-sm card-hover" aria-label="Psicóloga Infantil">
+                    <img src="http://static.photos/people/200x200/1" alt="Dra. María González"
+                        class="w-24 h-24 rounded-full mx-auto mb-4" />
+                    <h3 class="text-lg font-semibold text-center">Dra. María González</h3>
+                    <p class="text-indigo-600 text-center">Psicóloga Infantil</p>
+                    <p class="text-gray-600 text-center mt-2">Especialista en TEA y TDAH (+10 años).</p>
+                </article>
+
+                <article class="bg-gray-50 rounded-xl p-6 shadow-sm card-hover" aria-label="Neuropsicólogo">
+                    <img src="http://static.photos/people/200x200/2" alt="Dr. Carlos Méndez"
+                        class="w-24 h-24 rounded-full mx-auto mb-4" />
+                    <h3 class="text-lg font-semibold text-center">Dr. Carlos Méndez</h3>
+                    <p class="text-indigo-600 text-center">Neuropsicólogo</p>
+                    <p class="text-gray-600 text-center mt-2">Evaluación y rehabilitación cognitiva.</p>
+                </article>
+
+                <article class="bg-gray-50 rounded-xl p-6 shadow-sm card-hover" aria-label="Terapeuta Ocupacional">
+                    <img src="http://static.photos/people/200x200/3" alt="Lic. Ana Torres"
+                        class="w-24 h-24 rounded-full mx-auto mb-4" />
+                    <h3 class="text-lg font-semibold text-center">Lic. Ana Torres</h3>
+                    <p class="text-indigo-600 text-center">Terapeuta Ocupacional</p>
+                    <p class="text-gray-600 text-center mt-2">Integración sensorial y psicomotricidad.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========= SOLUCIONES ========= -->
+    <section id="soluciones" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-center">Nuestras Soluciones</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mt-3">
+                Herramientas para seguimiento, citas, informes y recursos educativos.
+            </p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                <!-- Item -->
+                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                    <div class="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i data-feather="activity" class="text-indigo-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Evaluación Neurocognitiva</h3>
+                    <p class="text-gray-600">Paneles y reportes por menor (Informes mensuales).</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                    <div class="bg-pink-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i data-feather="calendar" class="text-pink-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Gestión de Citas</h3>
+                    <p class="text-gray-600">Agenda con disponibilidad por psicólogo y recordatorios.</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                    <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i data-feather="book-open" class="text-blue-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Recursos Educativos</h3>
+                    <p class="text-gray-600">Biblioteca con favoritos y materiales por edad.</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                    <div class="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i data-feather="bar-chart-2" class="text-green-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Métricas & Progreso</h3>
+                    <p class="text-gray-600">Gráficas semanales y mensuales para familias.</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                    <div class="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i data-feather="users" class="text-purple-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Asignación de Casos</h3>
+                    <p class="text-gray-600">Vincula padre, menor y psicólogo (Asignación).</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                    <div class="bg-yellow-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <i data-feather="smartphone" class="text-yellow-600 w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">100% Responsive</h3>
+                    <p class="text-gray-600">Diseño accesible y adaptado a móvil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========= IMPACTO ========= -->
+    <section id="impacto" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-center">Impacto en la Educación</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mt-3">
+                Resultados y mejoras reportadas por familias y especialistas.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-10 items-center mt-12">
+                <img src="http://static.photos/education/640x360/1" alt="Niño aprendiendo"
+                    class="rounded-xl shadow-md" />
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3">Mejoras en habilidades cognitivas</h3>
+                    <p class="text-gray-600 mb-6">
+                        Atención, memoria de trabajo y planificación con seguimiento mensual (Informes).
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <p class="text-3xl font-bold text-indigo-600">95%</p>
+                            <p class="text-gray-600">Padres ven mejoras visibles</p>
+                        </div>
+                        <div class="bg-pink-50 p-4 rounded-lg">
+                            <p class="text-3xl font-bold text-pink-600">4.8/5</p>
+                            <p class="text-gray-600">Satisfacción promedio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-center mt-14">
+                <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-semibold mb-3">Transformación familiar</h3>
+                    <p class="text-gray-600 mb-4">
+                        Acompañamiento integral y reducción de estrés familiar con herramientas claras.
+                    </p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><i data-feather="check-circle"
+                                class="text-green-500 mr-2 mt-1"></i>Mejor comunicación</li>
+                        <li class="flex items-start"><i data-feather="check-circle"
+                                class="text-green-500 mr-2 mt-1"></i>Mayor participación escolar</li>
+                        <li class="flex items-start"><i data-feather="check-circle"
+                                class="text-green-500 mr-2 mt-1"></i>Hábitos y rutinas saludables</li>
+                    </ul>
+                </div>
+                <img src="http://static.photos/education/640x360/2" alt="Familia feliz"
+                    class="rounded-xl shadow-md order-1 md:order-2" />
+            </div>
+        </div>
+    </section>
+
+    <!-- ========= RECURSOS ========= -->
+    <section id="recursos" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-center">Recursos Educativos</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mt-3">Materiales para reforzar en casa. Puedes
+                marcarlos como favoritos.</p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+                <!-- Resource card -->
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm card-hover"
+                    aria-label="Guía de actividades sensoriales">
+                    <img src="http://static.photos/education/640x360/3" alt="Actividades sensoriales"
+                        class="w-full h-44 object-cover" />
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <h3 class="text-lg font-semibold">Guía de Actividades Sensoriales</h3>
+                            <button class="text-gray-400 hover:text-yellow-500 focus-ring"
+                                aria-label="Marcar como favorito">
+                                <i data-feather="star" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm">25 actividades para integración sensorial.</p>
+                        <div class="flex items-center justify-between mt-4 text-sm">
+                            <span class="text-gray-500">PDF • 2.4MB</span>
+                            <a href="#" class="text-indigo-600 hover:underline focus-ring">Descargar</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm card-hover"
+                    aria-label="Cuentos para regular emociones">
+                    <img src="http://static.photos/education/640x360/4" alt="Cuentos emociones"
+                        class="w-full h-44 object-cover" />
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <h3 class="text-lg font-semibold">Cuentos para Regular Emociones</h3>
+                            <button class="text-gray-400 hover:text-yellow-500 focus-ring"
+                                aria-label="Marcar como favorito">
+                                <i data-feather="star" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm">10 historias para identificar emociones.</p>
+                        <div class="flex items-center justify-between mt-4 text-sm">
+                            <span class="text-gray-500">PDF • 5.1MB</span>
+                            <a href="#" class="text-indigo-600 hover:underline focus-ring">Descargar</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm card-hover" aria-label="Manual TDAH">
+                    <img src="http://static.photos/education/640x360/5" alt="Manual TDAH"
+                        class="w-full h-44 object-cover" />
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <h3 class="text-lg font-semibold">Manual de Estrategias para TDAH</h3>
+                            <button class="text-gray-400 hover:text-yellow-500 focus-ring"
+                                aria-label="Marcar como favorito">
+                                <i data-feather="star" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-600 mt-2 text-sm">Técnicas para atención y organización.</p>
+                        <div class="flex items-center justify-between mt-4 text-sm">
+                            <span class="text-gray-500">PDF • 3.7MB</span>
+                            <a href="#" class="text-indigo-600 hover:underline focus-ring">Descargar</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#login"
+                    class="nk-btn-primary inline-flex items-center px-6 py-3 rounded-lg font-medium focus-ring">
+                    Accede a más recursos <i data-feather="arrow-right" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========= CTA LOGIN / REGISTRO ========= -->
+    <section id="registro" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
+            <div
+                class="bg-indigo-50 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-indigo-700">¿Aún no tienes cuenta?</h3>
+                    <p class="text-indigo-900/70 mt-1">Regístrate como Padre/Apoderado, Psicólogo o Administrador.</p>
+                </div>
+                <div class="flex gap-3">
+                    <a href="#login"
+                        class="nk-btn-primary px-6 py-3 rounded-lg font-medium focus-ring inline-flex items-center">
+                        <i data-feather="user-plus" class="mr-2 h-5 w-5"></i> Crear cuenta
+                    </a>
+                    <a href="#login"
+                        class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 focus-ring inline-flex items-center">
+                        Ya tengo cuenta
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========= FOOTER ========= -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid md:grid-cols-4 gap-10">
+            <div>
+                <div class="flex items-center gap-3">
+                    <img src="http://static.photos/blue/200x200/42" class="h-9 w-9 rounded-full" alt="Logo NeuroKid" />
+                    <span class="text-xl font-bold">NeuroKid</span>
+                </div>
+                <p class="text-gray-400 mt-3">
+                    Desarrollo neurocognitivo con enfoque personalizado para la infancia.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-3">Enlaces</h4>
+                <ul class="space-y-2">
+                    <li><a class="nk-footer-link" href="#inicio">Inicio</a></li>
+                    <li><a class="nk-footer-link" href="#equipo">Nuestro Equipo</a></li>
+                    <li><a class="nk-footer-link" href="#soluciones">Soluciones</a></li>
+                    <li><a class="nk-footer-link" href="#impacto">Impacto</a></li>
+                    <li><a class="nk-footer-link" href="#recursos">Recursos</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-3">Legal</h4>
+                <ul class="space-y-2">
+                    <li><a class="nk-footer-link" href="./legales/privacidad.html">Política de Privacidad</a></li>
+                    <li><a class="nk-footer-link" href="./legales/terminos.html">Términos y Condiciones</a></li>
+                    <li><a class="nk-footer-link" href="./legales/aviso-legal.html">Aviso Legal</a></li>
+                    <li><a class="nk-footer-link" href="./legales/cookies.html">Cookies</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-lg font-semibold mb-3">Contacto</h4>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <i data-feather="mail" class="w-5 h-5 mr-2 text-indigo-400"></i>
+                        <span class="text-gray-300">contacto@neurokid.com</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-feather="phone" class="w-5 h-5 mr-2 text-indigo-400"></i>
+                        <span class="text-gray-300">+56 9 1234 5678</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i data-feather="map-pin" class="w-5 h-5 mr-2 text-indigo-400"></i>
+                        <span class="text-gray-300">Av. Providencia 1234, Santiago</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-gray-400 text-sm">© 2025 NeuroKid. Todos los derechos reservados.</p>
+                <div class="flex gap-5 mt-3 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-feather="facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-feather="instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-feather="twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i data-feather="linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========= MODAL LOGIN / REGISTRO CON ROLES =========
+       * Solo UI (sin backend). El selector redirige a paneles:
+         - ./dashboards/padres.html
+         - ./dashboards/psicologos.html
+         - ./dashboards/admin.html
+  -->
+    <div id="loginModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60]" aria-hidden="true">
+        <div class="bg-white w-full max-w-md mx-4 rounded-xl p-6 relative" role="dialog" aria-modal="true"
+            aria-labelledby="loginTitle" data-aos="zoom-in">
+            <button id="closeLogin" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700 focus-ring"
+                aria-label="Cerrar modal">
+                <i data-feather="x"></i>
+            </button>
+
+            <h3 id="loginTitle" class="text-2xl font-bold text-gray-800">Acceso</h3>
+            <p class="text-gray-600 mt-1">Selecciona tu rol para iniciar.</p>
+
+            <form class="mt-4 space-y-4" onsubmit="return false;">
+                <!-- Email -->
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Correo</span>
+                    <input type="email" class="w-full px-4 py-2 border rounded-lg focus-ring" placeholder="tu@email.com"
+                        aria-required="true" />
+                </label>
+
+                <!-- Password -->
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Contraseña</span>
+                    <input type="password" class="w-full px-4 py-2 border rounded-lg focus-ring" placeholder="••••••••"
+                        aria-required="true" />
+                </label>
+
+                <!-- Rol -->
+                <label class="block">
+                    <span class="block text-sm text-gray-700 mb-1">Rol</span>
+                    <select id="rolSelect" class="w-full px-4 py-2 border rounded-lg focus-ring" aria-required="true">
+                        <option value="" selected disabled>Selecciona tu rol</option>
+                        <option value="padres">Padre/Apoderado</option>
+                        <option value="psicologos">Psicólogo</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </label>
+
+                <div class="flex items-center justify-between">
+                    <label class="inline-flex items-center gap-2">
+                        <input type="checkbox" class="h-4 w-4 border rounded" />
+                        <span class="text-sm text-gray-700">Recordarme</span>
+                    </label>
+                    <a href="#" class="text-sm text-indigo-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button id="btnEntrar"
+                    class="w-full nk-btn-primary py-2 rounded-lg font-medium focus-ring">Entrar</button>
+
+                <!-- <div class="relative mt-2">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative flex justify-center">
+                        <span class="px-2 bg-white text-gray-500 text-sm">o regístrate</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <a href="./auth/registro-padre.html" class="nk-btn-secondary focus-ring">
+                        <i data-feather="user-plus" class="w-4 h-4"></i> Padre
+                    </a>
+                    <a href="./auth/registro-psicologo.html" class="nk-btn-secondary focus-ring">
+                        <i data-feather="user-plus" class="w-4 h-4"></i> Psicólogo
+                    </a>
+                    <a href="./auth/registro-admin.html" class="nk-btn-secondary focus-ring">
+                        <i data-feather="user-plus" class="w-4 h-4"></i> Admin
+                    </a>
+                </div> -->
+            </form>
+        </div>
+    </div>
+
+    <!-- ========= SCRIPTS ========= -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- app.js contendrá interacciones comunes (toggle menú, abrir modal, redirecciones por rol, etc.)
+       Te lo envío en el siguiente mensaje como /assets/app.js
+  -->
+    <script src="./assets/app.js"></script>
+
+    <script>
+        // Accesibilidad: respetar preferencias de movimiento
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        AOS.init({ duration: reduceMotion ? 0 : 800, easing: 'ease-in-out', once: true });
+
+        // Reemplazo de iconos
+        feather.replace();
+    </script>
+</body>
+
+</html>

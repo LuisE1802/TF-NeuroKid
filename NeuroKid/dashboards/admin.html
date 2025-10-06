@@ -1,0 +1,782 @@
+<!-- File: /dashboards/admin.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuroKid | Panel Administrador</title>
+
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="antialiased bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="hidden md:flex md:flex-col w-72 bg-white border-r border-gray-200">
+            <div class="h-16 px-5 flex items-center justify-between border-b border-gray-100">
+                <a href="../index.html#inicio" class="flex items-center gap-3">
+                    <img src="http://static.photos/blue/200x200/42" alt="Logo" class="h-9 w-9 rounded-full" />
+                    <span class="text-xl font-bold text-indigo-600">NeuroKid</span>
+                </a>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-4">
+                <!-- 👇 fuerza columna + gap -->
+                <div class="nk-tabs flex flex-col gap-2" role="tablist" aria-label="Menú del panel admin">
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="true"
+                        data-target="#tab-dashboard">
+                        <i data-feather="bar-chart-2" class="w-4 h-4"></i> <span>Dashboard</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-usuarios">
+                        <i data-feather="users" class="w-4 h-4"></i> <span>Usuarios</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-asignaciones">
+                        <i data-feather="link" class="w-4 h-4"></i> <span>Asignaciones</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-recursos">
+                        <i data-feather="book-open" class="w-4 h-4"></i> <span>Recursos</span>
+                    </button>
+                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
+                        data-target="#tab-legales">
+                        <i data-feather="file-text" class="w-4 h-4"></i> <span>Legales & Contenidos</span>
+                    </button>
+                </div>
+            </nav>
+            <div class="p-4 border-t border-gray-100">
+                <a href="../index.html#inicio" class="nk-btn-secondary w-full">
+                    <i data-feather="log-out"></i> Salir
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex-1 flex flex-col">
+            <!-- Topbar móvil -->
+            <header class="md:hidden sticky top-0 z-40 bg-white border-b border-gray-200">
+                <div class="h-14 px-4 flex items-center justify-between">
+                    <button id="btnOpenDrawer" class="p-2 rounded-lg border border-gray-200" aria-label="Abrir menú">
+                        <i data-feather="menu"></i>
+                    </button>
+                    <span class="font-bold text-indigo-600">NeuroKid</span>
+                    <span class="w-6"></span>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 p-4 md:p-8">
+                <!-- DASHBOARD -->
+                <section id="tab-dashboard" class="space-y-6" role="tabpanel" data-aos="fade-up">
+                    <div class="nk-card p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <h1 class="text-2xl font-bold">Panel de control global</h1>
+                                <p class="text-gray-600">Resumen del ecosistema NeuroKid.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <a class="nk-btn-secondary" data-goto="#tab-usuarios"><i data-feather="users"></i>
+                                    Gestionar usuarios</a>
+                                <a class="nk-btn-primary" data-goto="#tab-asignaciones"><i data-feather="link"></i>
+                                    Gestionar asignaciones</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPIs -->
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="nk-stat">
+                            <i data-feather="user"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Padres registrados</p>
+                                <p class="text-xl font-semibold">342</p>
+                            </div>
+                        </div>
+                        <div class="nk-stat">
+                            <i data-feather="smile"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Menores registrados</p>
+                                <p class="text-xl font-semibold">518</p>
+                            </div>
+                        </div>
+                        <div class="nk-stat">
+                            <i data-feather="activity"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Citas activas</p>
+                                <p class="text-xl font-semibold">126</p>
+                            </div>
+                        </div>
+                        <div class="nk-stat">
+                            <i data-feather="star"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Evaluaciones a psicólogos</p>
+                                <p class="text-xl font-semibold">1,254</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="nk-card p-6">
+                            <h3 class="font-semibold mb-2">Crecimiento de usuarios</h3>
+                            <div class="h-64"><canvas id="chartUsuarios"></canvas></div>
+                        </div>
+                        <div class="nk-card p-6">
+                            <h3 class="font-semibold mb-2">Citas por especialidad</h3>
+                            <div class="h-64"><canvas id="chartCitasEspecialidad"></canvas></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- USUARIOS -->
+                <section id="tab-usuarios" class="hidden space-y-6" role="tabpanel" aria-hidden="true"
+                    data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Gestión de usuarios</h2>
+                        <div class="flex gap-2">
+                            <button class="nk-btn-secondary" data-open="#modalNuevoPadre"><i
+                                    data-feather="user-plus"></i> Nuevo padre</button>
+                            <button class="nk-btn-primary" data-open="#modalNuevoPsico"><i data-feather="plus"></i>
+                                Nuevo psicólogo</button>
+                        </div>
+                    </div>
+
+                    <div class="grid-cols-2 gap-6">
+                        <!-- Padres -->
+                        <div class="nk-card p-0 overflow-hidden">
+                            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                                <h3 class="font-semibold">Padres/Apoderados</h3>
+                                <input type="search" class="nk-input w-56" placeholder="Buscar por nombre/email" />
+                            </div>
+                            <table class="nk-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>DNI</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>María González</td>
+                                        <td>12345678</td>
+                                        <td>maria@correo.com</td>
+                                        <td>+56 9 1111 2222</td>
+                                        <td class="flex gap-2">
+                                            <button class="nk-btn-ghost text-sm" data-open="#modalEditPadre"><i
+                                                    data-feather="edit"></i> Editar</button>
+                                            <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                                Eliminar</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carlos Pérez</td>
+                                        <td>87654321</td>
+                                        <td>carlos@correo.com</td>
+                                        <td>+56 9 3333 4444</td>
+                                        <td class="flex gap-2">
+                                            <button class="nk-btn-ghost text-sm" data-open="#modalEditPadre"><i
+                                                    data-feather="edit"></i> Editar</button>
+                                            <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                                Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Psicólogos -->
+                        <div class="nk-card p-0 overflow-hidden">
+                            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                                <h3 class="font-semibold">Psicólogos</h3>
+                                <input type="search" class="nk-input w-56"
+                                    placeholder="Buscar por nombre/especialidad" />
+                            </div>
+                            <table class="nk-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Especialidad</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Dra. Ana Martínez</td>
+                                        <td>TEA</td>
+                                        <td>ana@neurokid.com</td>
+                                        <td>+56 9 5555 6666</td>
+                                        <td class="flex gap-2">
+                                            <button class="nk-btn-ghost text-sm" data-open="#modalEditPsico"><i
+                                                    data-feather="edit"></i> Editar</button>
+                                            <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                                Eliminar</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dr. Carlos Rojas</td>
+                                        <td>Neuropsicología</td>
+                                        <td>carlos@neurokid.com</td>
+                                        <td>+56 9 7777 8888</td>
+                                        <td class="flex gap-2">
+                                            <button class="nk-btn-ghost text-sm" data-open="#modalEditPsico"><i
+                                                    data-feather="edit"></i> Editar</button>
+                                            <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                                Eliminar</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ASIGNACIONES -->
+                <section id="tab-asignaciones" class="hidden space-y-6" role="tabpanel" aria-hidden="true"
+                    data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Gestión de asignaciones</h2>
+                        <button class="nk-btn-primary" data-open="#modalNuevaAsignacion"><i data-feather="link"></i>
+                            Nueva asignación</button>
+                    </div>
+
+                    <div class="nk-card p-0 overflow-hidden">
+                        <table class="nk-table">
+                            <thead>
+                                <tr>
+                                    <th>Padre</th>
+                                    <th>Menor</th>
+                                    <th>Psicólogo</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>María González</td>
+                                    <td>Lucas González</td>
+                                    <td>Dra. Ana Martínez</td>
+                                    <td>2024-10-01</td>
+                                    <td><span class="nk-badge nk-badge--success">Activa</span></td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEditAsignacion"><i
+                                                data-feather="edit"></i> Editar</button>
+                                        <button class="nk-btn-ghost text-sm"><i data-feather="pause-circle"></i>
+                                            Pausar</button>
+                                        <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                            Eliminar</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>María González</td>
+                                    <td>Sofía González</td>
+                                    <td>Dr. Carlos Rojas</td>
+                                    <td>2025-01-15</td>
+                                    <td><span class="nk-badge nk-badge--success">Activa</span></td>
+                                    <td class="flex gap-2">
+                                        <button class="nk-btn-ghost text-sm" data-open="#modalEditAsignacion"><i
+                                                data-feather="edit"></i> Editar</button>
+                                        <button class="nk-btn-ghost text-sm"><i data-feather="pause-circle"></i>
+                                            Pausar</button>
+                                        <button class="nk-btn-ghost text-sm"><i data-feather="trash-2"></i>
+                                            Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-sm text-gray-500">Crea/edita en la tabla <strong>Asignación</strong> (UI simulada).
+                    </p>
+                </section>
+
+                <!-- RECURSOS -->
+                <section id="tab-recursos" class="hidden space-y-6" role="tabpanel" aria-hidden="true"
+                    data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Recursos globales</h2>
+                        <div class="flex gap-2">
+                            <input type="search" class="nk-input" placeholder="Buscar recurso..." />
+                            <select class="nk-select">
+                                <option value="todos">Todos</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="aprobado">Aprobado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <article class="nk-card overflow-hidden card-hover">
+                            <img src="http://static.photos/education/640x360/3" alt="Recurso"
+                                class="w-full h-44 object-cover" />
+                            <div class="p-5">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold">Guía de Actividades Sensoriales</h3>
+                                    <span class="nk-badge">Pendiente</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">25 actividades para integración sensorial.</p>
+                                <div class="mt-4 flex items-center justify-between text-sm">
+                                    <span class="text-gray-500">PDF • 2.4MB</span>
+                                    <div class="flex gap-2">
+                                        <button class="nk-btn-ghost" data-open="#modalAprobarRecurso"><i
+                                                data-feather="check"></i> Aprobar</button>
+                                        <button class="nk-btn-ghost"><i data-feather="x-circle"></i> Rechazar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="nk-card overflow-hidden card-hover">
+                            <img src="http://static.photos/education/640x360/4" alt="Recurso"
+                                class="w-full h-44 object-cover" />
+                            <div class="p-5">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold">Cuentos para Regular Emociones</h3>
+                                    <span class="nk-badge nk-badge--success">Aprobado</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">10 historias para identificar emociones.</p>
+                                <div class="mt-4 flex items-center justify-between text-sm">
+                                    <span class="text-gray-500">PDF • 5.1MB</span>
+                                    <div class="flex gap-2">
+                                        <button class="nk-btn-ghost" data-open="#modalEditarRecursoGlobal"><i
+                                                data-feather="edit"></i> Editar</button>
+                                        <button class="nk-btn-ghost"><i data-feather="trash-2"></i> Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="nk-card overflow-hidden card-hover">
+                            <img src="http://static.photos/education/640x360/5" alt="Recurso"
+                                class="w-full h-44 object-cover" />
+                            <div class="p-5">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold">Manual de Estrategias para TDAH</h3>
+                                    <span class="nk-badge nk-badge--success">Aprobado</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Técnicas para atención y organización.</p>
+                                <div class="mt-4 flex items-center justify-between text-sm">
+                                    <span class="text-gray-500">PDF • 3.7MB</span>
+                                    <div class="flex gap-2">
+                                        <button class="nk-btn-ghost" data-open="#modalEditarRecursoGlobal"><i
+                                                data-feather="edit"></i> Editar</button>
+                                        <button class="nk-btn-ghost"><i data-feather="trash-2"></i> Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <p class="text-sm text-gray-500">Aprobación y moderación global de
+                        <strong>RecursoEducativo</strong>.</p>
+                </section>
+
+                <!-- LEGALES & CONTENIDOS -->
+                <section id="tab-legales" class="hidden space-y-6" role="tabpanel" aria-hidden="true"
+                    data-aos="fade-up">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <h2 class="text-2xl font-bold">Módulo legal y contenidos públicos</h2>
+                        <div class="flex gap-2">
+                            <button class="nk-btn-secondary" data-open="#modalPreviewLegales"><i data-feather="eye"></i>
+                                Previsualizar</button>
+                            <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="nk-card p-6">
+                            <h3 class="font-semibold mb-2">Misión</h3>
+                            <textarea
+                                class="nk-textarea h-40">Potenciar el desarrollo neurocognitivo infantil con acompañamiento personalizado.</textarea>
+                        </div>
+                        <div class="nk-card p-6">
+                            <h3 class="font-semibold mb-2">Visión</h3>
+                            <textarea
+                                class="nk-textarea h-40">Ser la plataforma de referencia en evaluación, intervención y seguimiento integral.</textarea>
+                        </div>
+                        <div class="nk-card p-6 lg:col-span-2">
+                            <h3 class="font-semibold mb-2">Política de privacidad</h3>
+                            <textarea class="nk-textarea h-48">[Texto editable de política de privacidad...]</textarea>
+                        </div>
+                        <div class="nk-card p-6 lg:col-span-2">
+                            <h3 class="font-semibold mb-2">Términos y condiciones</h3>
+                            <textarea class="nk-textarea h-48">[Texto editable de términos y condiciones...]</textarea>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500">Estos textos se reflejan en las páginas de legales del sitio
+                        público (UI).</p>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="px-4 md:px-8 py-6 border-t border-gray-200 bg-white">
+                <div class="text-sm text-gray-500 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
+                    <p>© 2025 NeuroKid.</p>
+                    <nav class="flex gap-4">
+                        <a href="../legales/privacidad.html" class="nk-footer-link">Privacidad</a>
+                        <a href="../legales/terminos.html" class="nk-footer-link">Términos</a>
+                        <a href="../legales/aviso-legal.html" class="nk-footer-link">Aviso Legal</a>
+                        <a href="../legales/cookies.html" class="nk-footer-link">Cookies</a>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ============ Modales ============ -->
+    <!-- Nuevo Padre -->
+    <div id="modalNuevoPadre" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleNuevoPadre">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleNuevoPadre" class="text-xl font-bold">Nuevo padre/apoderado</h3>
+                <button class="nk-btn-ghost" data-close="#modalNuevoPadre" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm text-gray-700 mb-1">Nombre</span><input class="nk-input"
+                        aria-required="true" /></label>
+                <label class="block"><span class="block text-sm text-gray-700 mb-1">Apellido</span><input
+                        class="nk-input" aria-required="true" /></label>
+                <label class="block"><span class="block text-sm text-gray-700 mb-1">DNI</span><input
+                        class="nk-input" /></label>
+                <label class="block"><span class="block text-sm text-gray-700 mb-1">Email</span><input type="email"
+                        class="nk-input" /></label>
+                <label class="block"><span class="block text-sm text-gray-700 mb-1">Teléfono</span><input
+                        class="nk-input" /></label>
+                <label class="block"><span class="block text-sm text-gray-700 mb-1">Tipo de parentesco</span><input
+                        class="nk-input" placeholder="Madre/Padre/Tutor" /></label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalNuevoPadre">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Inserta en <strong>Padre</strong> (UI).</p>
+        </div>
+    </div>
+
+    <!-- Editar Padre -->
+    <div id="modalEditPadre" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditPadre">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleEditPadre" class="text-xl font-bold">Editar padre/apoderado</h3>
+                <button class="nk-btn-ghost" data-close="#modalEditPadre" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm">Nombre</span><input class="nk-input"
+                        value="María" /></label>
+                <label class="block"><span class="block text-sm">Apellido</span><input class="nk-input"
+                        value="González" /></label>
+                <label class="block"><span class="block text-sm">Email</span><input class="nk-input"
+                        value="maria@correo.com" /></label>
+                <label class="block"><span class="block text-sm">Teléfono</span><input class="nk-input"
+                        value="+56 9 1111 2222" /></label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalEditPadre">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Nuevo Psicólogo -->
+    <div id="modalNuevoPsico" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleNuevoPsico">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleNuevoPsico" class="text-xl font-bold">Nuevo psicólogo</h3>
+                <button class="nk-btn-ghost" data-close="#modalNuevoPsico" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm">Nombre</span><input class="nk-input"
+                        aria-required="true" /></label>
+                <label class="block"><span class="block text-sm">Apellido</span><input class="nk-input"
+                        aria-required="true" /></label>
+                <label class="block"><span class="block text-sm">Especialidad</span><input class="nk-input"
+                        placeholder="TEA, TDAH, etc." /></label>
+                <label class="block"><span class="block text-sm">Email</span><input type="email"
+                        class="nk-input" /></label>
+                <label class="block"><span class="block text-sm">Teléfono</span><input class="nk-input" /></label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalNuevoPsico">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Inserta en <strong>Psicologo</strong> (UI).</p>
+        </div>
+    </div>
+
+    <!-- Editar Psicólogo -->
+    <div id="modalEditPsico" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditPsico">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleEditPsico" class="text-xl font-bold">Editar psicólogo</h3>
+                <button class="nk-btn-ghost" data-close="#modalEditPsico" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm">Nombre</span><input class="nk-input"
+                        value="Ana" /></label>
+                <label class="block"><span class="block text-sm">Apellido</span><input class="nk-input"
+                        value="Martínez" /></label>
+                <label class="block"><span class="block text-sm">Especialidad</span><input class="nk-input"
+                        value="TEA" /></label>
+                <label class="block"><span class="block text-sm">Email</span><input class="nk-input"
+                        value="ana@neurokid.com" /></label>
+                <label class="block"><span class="block text-sm">Teléfono</span><input class="nk-input"
+                        value="+56 9 5555 6666" /></label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalEditPsico">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Nueva Asignación -->
+    <div id="modalNuevaAsignacion" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleNuevaAsignacion">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleNuevaAsignacion" class="text-xl font-bold">Nueva asignación</h3>
+                <button class="nk-btn-ghost" data-close="#modalNuevaAsignacion" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm">Padre</span>
+                    <select class="nk-select">
+                        <option>María González</option>
+                        <option>Carlos Pérez</option>
+                    </select>
+                </label>
+                <label class="block"><span class="block text-sm">Menor</span>
+                    <select class="nk-select">
+                        <option>Lucas González</option>
+                        <option>Sofía González</option>
+                    </select>
+                </label>
+                <label class="block"><span class="block text-sm">Psicólogo</span>
+                    <select class="nk-select">
+                        <option>Dra. Ana Martínez</option>
+                        <option>Dr. Carlos Rojas</option>
+                    </select>
+                </label>
+                <label class="block"><span class="block text-sm">Fecha asignación</span><input type="date"
+                        class="nk-input" value="2025-06-01" /></label>
+                <label class="md:col-span-2 block"><span class="block text-sm">Estado</span>
+                    <select class="nk-select">
+                        <option>Activa</option>
+                        <option>Pausada</option>
+                        <option>Finalizada</option>
+                    </select>
+                </label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalNuevaAsignacion">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar</button>
+                </div>
+            </form>
+            <p class="text-sm text-gray-500 mt-3">Inserta en <strong>Asignación</strong> con FK a <em>Padre</em>,
+                <em>Menor</em> y <em>Psicólogo</em> (UI).</p>
+        </div>
+    </div>
+
+    <!-- Editar Asignación -->
+    <div id="modalEditAsignacion" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditAsignacion">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleEditAsignacion" class="text-xl font-bold">Editar asignación</h3>
+                <button class="nk-btn-ghost" data-close="#modalEditAsignacion" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm">Estado</span>
+                    <select class="nk-select">
+                        <option selected>Activa</option>
+                        <option>Pausada</option>
+                        <option>Finalizada</option>
+                    </select>
+                </label>
+                <label class="block"><span class="block text-sm">Psicólogo</span>
+                    <select class="nk-select">
+                        <option selected>Dra. Ana Martínez</option>
+                        <option>Dr. Carlos Rojas</option>
+                    </select>
+                </label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalEditAsignacion">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Aprobar recurso -->
+    <div id="modalAprobarRecurso" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleAprobarRecurso">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleAprobarRecurso" class="text-xl font-bold">Aprobar recurso</h3>
+                <button class="nk-btn-ghost" data-close="#modalAprobarRecurso" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <p class="text-sm text-gray-700">¿Deseas aprobar el recurso seleccionado para que sea visible a los padres?
+            </p>
+            <div class="mt-4 flex items-center justify-end gap-2">
+                <button class="nk-btn-secondary" data-close="#modalAprobarRecurso">Cancelar</button>
+                <button class="nk-btn-primary"><i data-feather="check"></i> Aprobar</button>
+            </div>
+            <p class="text-sm text-gray-500 mt-3">Actualiza estado en <strong>RecursoEducativo</strong> (UI).</p>
+        </div>
+    </div>
+
+    <!-- Editar recurso global -->
+    <div id="modalEditarRecursoGlobal" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal" role="dialog" aria-modal="true" aria-labelledby="titleEditarRecursoGlobal">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titleEditarRecursoGlobal" class="text-xl font-bold">Editar recurso</h3>
+                <button class="nk-btn-ghost" data-close="#modalEditarRecursoGlobal" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <form class="grid md:grid-cols-2 gap-4" onsubmit="return false;">
+                <label class="block"><span class="block text-sm">Título</span><input class="nk-input"
+                        value="Cuentos para Regular Emociones" /></label>
+                <label class="block"><span class="block text-sm">Link</span><input class="nk-input"
+                        value="https://ejemplo.com/cuentos.pdf" /></label>
+                <label class="md:col-span-2 block"><span class="block text-sm">Descripción</span><textarea
+                        class="nk-textarea">10 historias para identificar emociones.</textarea></label>
+                <div class="md:col-span-2 flex items-center justify-end gap-2">
+                    <button class="nk-btn-secondary" data-close="#modalEditarRecursoGlobal">Cancelar</button>
+                    <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Previsualizar legales -->
+    <div id="modalPreviewLegales" class="nk-modal-backdrop" aria-hidden="true">
+        <div class="nk-modal max-w-3xl" role="dialog" aria-modal="true" aria-labelledby="titlePreviewLegales">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="titlePreviewLegales" class="text-xl font-bold">Previsualización</h3>
+                <button class="nk-btn-ghost" data-close="#modalPreviewLegales" aria-label="Cerrar"><i
+                        data-feather="x"></i></button>
+            </div>
+            <div class="prose max-w-none">
+                <h4>Misión</h4>
+                <p>Potenciar el desarrollo neurocognitivo infantil con acompañamiento personalizado.</p>
+                <h4>Visión</h4>
+                <p>Ser la plataforma de referencia en evaluación, intervención y seguimiento integral.</p>
+                <h4>Política de privacidad</h4>
+                <p>[Texto editable de política de privacidad...]</p>
+                <h4>Términos y condiciones</h4>
+                <p>[Texto editable de términos y condiciones...]</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AOS + app -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../assets/app.js"></script>
+
+    <script>
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        AOS.init({ duration: reduceMotion ? 0 : 600, once: true });
+        feather.replace();
+
+        // Tabs
+        const tabButtons = document.querySelectorAll(".nk-tab");
+        const panelIds = ["#tab-dashboard", "#tab-usuarios", "#tab-asignaciones", "#tab-recursos", "#tab-legales"];
+        const panels = panelIds.map(id => document.querySelector(id));
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.setAttribute("aria-selected", "false"));
+                btn.setAttribute("aria-selected", "true");
+                const target = btn.getAttribute("data-target");
+                panels.forEach(p => {
+                    if (!p) return;
+                    const show = "#" + p.id === target;
+                    p.classList.toggle("hidden", !show);
+                    p.setAttribute("aria-hidden", show ? "false" : "true");
+                });
+                window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+            });
+        });
+        // Navegar desde CTA
+        document.body.addEventListener("click", (e) => {
+            const a = e.target.closest("[data-goto]");
+            if (!a) return;
+            const target = a.getAttribute("data-goto");
+            const btn = [...tabButtons].find(b => b.getAttribute("data-target") === target);
+            if (btn) btn.click();
+        });
+
+        // Modales: open/close
+        function openModal(id) { const el = document.querySelector(id); if (!el) return; el.classList.add("is-open"); el.setAttribute("aria-hidden", "false"); }
+        function closeModal(id) { const el = document.querySelector(id); if (!el) return; el.classList.remove("is-open"); el.setAttribute("aria-hidden", "true"); }
+        document.body.addEventListener("click", (e) => {
+            const openBtn = e.target.closest("[data-open]");
+            if (openBtn) { e.preventDefault(); openModal(openBtn.getAttribute("data-open")); }
+            const closeBtn = e.target.closest("[data-close]");
+            if (closeBtn) { e.preventDefault(); closeModal(closeBtn.getAttribute("data-close")); }
+        });
+        document.querySelectorAll(".nk-modal-backdrop").forEach(b => {
+            b.addEventListener("mousedown", (e) => { if (e.target === b) b.classList.remove("is-open"); });
+        });
+
+        // Charts
+        const usersCtx = document.getElementById("chartUsuarios");
+        const citasEspCtx = document.getElementById("chartCitasEspecialidad");
+
+        new Chart(usersCtx, {
+            type: "line",
+            data: {
+                labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+                datasets: [{
+                    label: "Padres",
+                    data: [260, 280, 300, 320, 335, 342],
+                    borderColor: "#5E81F4",
+                    backgroundColor: "rgba(94,129,244,.12)",
+                    fill: true,
+                    tension: .3
+                }, {
+                    label: "Menores",
+                    data: [410, 440, 465, 490, 505, 518],
+                    borderColor: "#FF7AC6",
+                    backgroundColor: "rgba(255,122,198,.12)",
+                    fill: true,
+                    tension: .3
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        new Chart(citasEspCtx, {
+            type: "bar",
+            data: {
+                labels: ["TEA", "TDAH", "Lenguaje", "Conducta"],
+                datasets: [{
+                    label: "Citas (mes)",
+                    data: [42, 38, 26, 20],
+                    backgroundColor: "rgba(94,129,244,.25)",
+                    borderColor: "#5E81F4",
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    </script>
+</body>
+
+</html>
