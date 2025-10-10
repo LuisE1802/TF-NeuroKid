@@ -322,11 +322,11 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <h2 class="text-2xl font-bold">Progreso</h2>
                         <div class="flex gap-2">
-                            <select id="selMenorProgreso" class="nk-select">
+                            <select id="selMenorProgreso" class="nk-select w-3/5">
                                 <option value="lucas" selected>Lucas González</option>
                                 <option value="sofia">Sofía González</option>
                             </select>
-                            <select id="selRangoProgreso" class="nk-select">
+                            <select id="selRangoProgreso" class="nk-select w-2/5">
                                 <option value="mensual" selected>Mensual</option>
                                 <option value="semanal">Semanal</option>
                             </select>
@@ -718,6 +718,47 @@
         const inputPsicologo = document.getElementById('selPsicologo');
         const hiddenPsicologo = document.getElementById('hiddenPsicologoValue');
 
+        const gridDisp = document.getElementById("gridDisponibilidad");
+        // ====== Nueva Cita: disponibilidad simulada (por psicólogo) ======
+        const disponibilidad = {
+            ana: [
+                { dia: "Lunes", hora: "10:00" }, { dia: "Lunes", hora: "10:45" },
+                { dia: "Miércoles", hora: "11:00" }, { dia: "Viernes", hora: "09:00" }
+            ],
+            carlos: [
+                { dia: "Martes", hora: "11:00" }, { dia: "Martes", hora: "11:45" },
+                { dia: "Jueves", hora: "10:15" }, { dia: "Jueves", hora: "11:00" }
+            ]
+        };
+
+        function renderSlots(psicologoId) { // Recibe el ID del psicólogo a buscar
+            if (!gridDisp) return;
+
+            // Usamos el ID del psicólogo para obtener los slots
+            const slots = disponibilidad[psicologoId] || [];
+            gridDisp.innerHTML = "";
+
+            if (slots.length === 0) {
+                gridDisp.innerHTML = '<p class="text-sm text-gray-500 italic md:col-span-3">No hay disponibilidad registrada.</p>';
+                return;
+            }
+
+            slots.forEach(s => {
+                const btn = document.createElement("button");
+                btn.className = "nk-btn-secondary text-sm";
+                btn.textContent = `${s.dia} · ${s.hora}`;
+                btn.type = "button";
+                btn.setAttribute('data-cita-dia', s.dia); // Opcional: para usar en el envío del formulario
+                btn.setAttribute('data-cita-hora', s.hora); // Opcional: para usar en el envío del formulario
+                btn.addEventListener("click", () => {
+                    // marcar como seleccionado
+                    gridDisp.querySelectorAll("button").forEach(b => b.classList.remove("ring-2", "ring-indigo-300", "font-bold", "bg-indigo-50"));
+                    btn.classList.add("ring-2", "ring-indigo-300", "font-bold", "bg-indigo-50");
+                });
+                gridDisp.appendChild(btn);
+            });
+        }
+
         const actualizarPsicologo = () => {
             // Obtiene la opción de menor actualmente seleccionada
             const selectedOption = selMenor.options[selMenor.selectedIndex];
@@ -736,6 +777,8 @@
             // Aquí es donde deberías llamar a la función para recargar la disponibilidad
             // horaria (gridDisponibilidad) usando el nuevo psicologoId.
             // Ejemplo: cargarDisponibilidad(psicologoId);
+            // AÑADIDO CLAVE: Llama a renderSlots con el ID del psicólogo recién actualizado
+            renderSlots(psicologoId);
         };
 
         // 1. Ejecutar al cargar para establecer el valor inicial
@@ -832,37 +875,7 @@
             });
         });
 
-        // ====== Nueva Cita: disponibilidad simulada (por psicólogo) ======
-        const disponibilidad = {
-            ana: [
-                { dia: "Lunes", hora: "10:00" }, { dia: "Lunes", hora: "10:45" },
-                { dia: "Miércoles", hora: "11:00" }, { dia: "Viernes", hora: "09:00" }
-            ],
-            carlos: [
-                { dia: "Martes", hora: "11:00" }, { dia: "Martes", hora: "11:45" },
-                { dia: "Jueves", hora: "10:15" }, { dia: "Jueves", hora: "11:00" }
-            ]
-        };
-        const gridDisp = document.getElementById("gridDisponibilidad");
         const selPsico = document.getElementById("selPsicologo");
-        function renderSlots() {
-            if (!gridDisp || !selPsico) return;
-            gridDisp.innerHTML = "";
-            (disponibilidad[selPsico.value] || []).forEach(s => {
-                const btn = document.createElement("button");
-                btn.className = "nk-btn-secondary text-sm";
-                btn.textContent = `${s.dia} · ${s.hora}`;
-                btn.type = "button";
-                btn.addEventListener("click", () => {
-                    // marcar como seleccionado
-                    gridDisp.querySelectorAll("button").forEach(b => b.classList.remove("ring-2", "ring-indigo-300"));
-                    btn.classList.add("ring-2", "ring-indigo-300");
-                });
-                gridDisp.appendChild(btn);
-            });
-        }
-        if (selPsico) { selPsico.addEventListener("change", renderSlots); }
-        renderSlots();
 
         // ====== Evaluar Psicólogo (paso de nombre) ======
         document.querySelectorAll("[data-open='#modalEvaluar']").forEach(btn => {
