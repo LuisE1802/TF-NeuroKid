@@ -47,10 +47,6 @@
                         data-target="#tab-recursos">
                         <i data-feather="book-open" class="w-4 h-4"></i> <span>Recursos</span>
                     </button>
-                    <button class="nk-tab flex items-center gap-2 w-full justify-start text-left" aria-selected="false"
-                        data-target="#tab-legales">
-                        <i data-feather="file-text" class="w-4 h-4"></i> <span>Legales & Contenidos</span>
-                    </button>
                 </div>
             </nav>
             <div class="p-4 border-t border-gray-100">
@@ -155,7 +151,7 @@
                         <div class="nk-card p-0 overflow-hidden">
                             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                                 <h3 class="font-semibold">Padres/Apoderados</h3>
-                                <input type="search" class="nk-input w-56" placeholder="Buscar por nombre/email" />
+                                <input type="search" class="nk-input w-56" placeholder="Buscar" />
                             </div>
                             <table class="nk-table">
                                 <thead>
@@ -201,7 +197,7 @@
                             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                                 <h3 class="font-semibold">Psicólogos</h3>
                                 <input type="search" class="nk-input w-56"
-                                    placeholder="Buscar por nombre/especialidad" />
+                                    placeholder="Buscar" />
                             </div>
                             <table class="nk-table">
                                 <thead>
@@ -310,7 +306,7 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <h2 class="text-2xl font-bold">Recursos globales</h2>
                         <div class="flex gap-2">
-                            <input type="search" class="nk-input" placeholder="Buscar recurso..." />
+                            <input type="search" class="nk-input" placeholder="Buscar" />
                             <select class="nk-select">
                                 <option value="todos">Todos</option>
                                 <option value="pendiente">Pendiente</option>
@@ -385,42 +381,7 @@
                         <strong>RecursoEducativo</strong>.</p>
                 </section>
 
-                <!-- LEGALES & CONTENIDOS -->
-                <section id="tab-legales" class="hidden space-y-6" role="tabpanel" aria-hidden="true"
-                    data-aos="fade-up">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <h2 class="text-2xl font-bold">Módulo legal y contenidos públicos</h2>
-                        <div class="flex gap-2">
-                            <button class="nk-btn-secondary" data-open="#modalPreviewLegales"><i data-feather="eye"></i>
-                                Previsualizar</button>
-                            <button class="nk-btn-primary"><i data-feather="save"></i> Guardar cambios</button>
-                        </div>
-                    </div>
-
-                    <div class="grid lg:grid-cols-2 gap-6">
-                        <div class="nk-card p-6">
-                            <h3 class="font-semibold mb-2">Misión</h3>
-                            <textarea
-                                class="nk-textarea h-40">Potenciar el desarrollo neurocognitivo infantil con acompañamiento personalizado.</textarea>
-                        </div>
-                        <div class="nk-card p-6">
-                            <h3 class="font-semibold mb-2">Visión</h3>
-                            <textarea
-                                class="nk-textarea h-40">Ser la plataforma de referencia en evaluación, intervención y seguimiento integral.</textarea>
-                        </div>
-                        <div class="nk-card p-6 lg:col-span-2">
-                            <h3 class="font-semibold mb-2">Política de privacidad</h3>
-                            <textarea class="nk-textarea h-48">[Texto editable de política de privacidad...]</textarea>
-                        </div>
-                        <div class="nk-card p-6 lg:col-span-2">
-                            <h3 class="font-semibold mb-2">Términos y condiciones</h3>
-                            <textarea class="nk-textarea h-48">[Texto editable de términos y condiciones...]</textarea>
-                        </div>
-                    </div>
-
-                    <p class="text-sm text-gray-500">Estos textos se reflejan en las páginas de legales del sitio
-                        público (UI).</p>
-                </section>
+                
             </main>
 
             <!-- Footer -->
@@ -697,7 +658,7 @@
 
         // Tabs
         const tabButtons = document.querySelectorAll(".nk-tab");
-        const panelIds = ["#tab-dashboard", "#tab-usuarios", "#tab-asignaciones", "#tab-recursos", "#tab-legales"];
+        const panelIds = ["#tab-dashboard", "#tab-usuarios", "#tab-asignaciones", "#tab-recursos"];
         const panels = panelIds.map(id => document.querySelector(id));
         tabButtons.forEach(btn => {
             btn.addEventListener("click", () => {
