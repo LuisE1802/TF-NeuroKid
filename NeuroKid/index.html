@@ -1,32 +1,24 @@
-<!-- File: index.html -->
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <!-- ========= META ========= -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NeuroKid | Desarrollo Neurocognitivo Infantil</title>
     <meta name="description" content="Plataforma integral para el seguimiento y desarrollo neurocognitivo infantil." />
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
 
-    <!-- ========= FUENTES & ICONOS ========= -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
-    <!-- ========= TAILWIND (CDN) ========= -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- ========= ESTILOS PROPIOS =========
-       Este archivo contendrá variables de color, helpers y overrides.
-       Te lo envío en el siguiente mensaje como /assets/styles.css
-  -->
     <link rel="stylesheet" href="./assets/styles.css" />
 
     <style>
-        /* Fallback mínimo por si styles.css no carga aún (se sobreescribe) */
+        /* Variables y estilos base (del archivo original) */
         :root {
             --nk-primary: #5E81F4;
             --nk-secondary: #1C1D21;
@@ -35,69 +27,75 @@
             --nk-dark: #1C1D21;
         }
 
-        html {
-            scroll-behavior: smooth;
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background: var(--nk-bg); color: var(--nk-dark); }
+        .nk-btn-primary { background: var(--nk-primary); color: #fff; }
+        .nk-btn-primary:hover { filter: brightness(.92); }
+        .nk-hero-gradient { background: linear-gradient(135deg, var(--nk-primary) 0%, var(--nk-accent) 100%); }
+        .card-hover { transition: transform .25s, box-shadow .25s; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0, 0, 0, .08); }
+        .focus-ring:focus { outline: 3px solid #a3b5ff; outline-offset: 2px; }
+
+        /* ============================================================
+        CLASES DEL FORMULARIO DE LOGIN (Para que se vea bien en el modal)
+        ============================================================
+        */
+        .nk-link { @apply text-indigo-600 hover:text-indigo-700 transition duration-150 ease-in-out font-medium; }
+        .nk-input { @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150; }
+        
+        /* Botones secundarios/ghost (Inicio de sesión social) - MEJORA DE VISIBILIDAD */
+        .nk-btn-ghost-modal { 
+            /* Ajustado para el modal */
+            @apply flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium bg-white hover:bg-gray-50 transition duration-150 ease-in-out; 
+        }
+        .nk-checkbox { @apply h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500; }
+        
+        /* **CHIPS DE ROL MEJORADOS (ESTILO INACTIVO) ** */
+        .nk-chip { 
+            @apply flex flex-col items-center justify-center p-3 text-sm font-medium rounded-xl border cursor-pointer 
+                     transition duration-200 ease-in-out h-24;
+        }
+        /* ESTILOS ESPECÍFICOS PARA CADA ROL INACTIVO */
+        .nk-chip[data-role="padre"] { @apply text-blue-700 bg-blue-50 border-blue-300 hover:bg-blue-100; }
+        .nk-chip[data-role="psicologo"] { @apply text-pink-700 bg-pink-50 border-pink-300 hover:bg-pink-100; }
+        .nk-chip[data-role="admin"] { @apply text-emerald-700 bg-emerald-50 border-emerald-300 hover:bg-emerald-100; }
+        
+        /* ESTILO ACTIVO */
+        .nk-chip--active { 
+            @apply bg-indigo-600 text-white border-indigo-600 shadow-xl shadow-indigo-300/60 
+                     hover:bg-indigo-700 hover:border-indigo-700; 
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--nk-bg);
-            color: var(--nk-dark);
-        }
+        /* Ajustes de iconos en chips */
+        .nk-chip i { @apply w-6 h-6 mb-2; }
+        .nk-chip--active i { @apply text-white; }
+        
+        /* Ocultar elementos de AOS dentro del modal para evitar conflicto al abrir/cerrar */
+        [data-modal-content][data-aos] { opacity: 1 !important; transform: none !important; }
 
-        .nk-btn-primary {
-            background: var(--nk-primary);
-            color: #fff;
-        }
-
-        .nk-btn-primary:hover {
-            filter: brightness(.92);
-        }
-
-        .nk-hero-gradient {
-            background: linear-gradient(135deg, var(--nk-primary) 0%, var(--nk-accent) 100%);
-        }
-
-        .card-hover {
-            transition: transform .25s, box-shadow .25s;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, .08);
-        }
-
-        .focus-ring:focus {
-            outline: 3px solid #a3b5ff;
-            outline-offset: 2px;
-        }
     </style>
 </head>
 
 <body class="antialiased">
-    <!-- ========= NAVBAR ========= -->
     <nav class="bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-gray-100 fixed w-full z-50"
         role="navigation" aria-label="Principal">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
                 <a href="#inicio" class="flex items-center gap-3 focus-ring" aria-label="Ir al inicio">
                     <img src="http://static.photos/blue/200x200/42" class="h-9 w-9 rounded-full" alt="Logo NeuroKid" />
                     <span class="text-lg sm:text-xl font-bold text-indigo-600">NeuroKid</span>
                 </a>
 
-                <!-- Links desktop -->
                 <div class="hidden md:flex items-center gap-7">
                     <a href="#inicio" class="nk-link">Inicio</a>
                     <a href="#equipo" class="nk-link">Nuestro Equipo</a>
                     <a href="#soluciones" class="nk-link">Nuestras Soluciones</a>
                     <a href="#impacto" class="nk-link">Impacto en la Educación</a>
                     <a href="#recursos" class="nk-link">Recursos</a>
-                    <a href="./auth/login.html" class="nk-link">Login</a>
+                    <a href="#" id="openLoginDesktop" class="nk-link">Login</a> 
                     <a href="./auth/register.html" class="nk-link nk-cta">Registrarse</a>
                 </div>
 
-                <!-- Mobile button -->
                 <button id="btnMobile" class="md:hidden p-2 rounded-lg border border-gray-200 focus-ring"
                     aria-expanded="false" aria-controls="navMobile" aria-label="Abrir menú">
                     <i data-feather="menu"></i>
@@ -105,7 +103,6 @@
             </div>
         </div>
 
-        <!-- Menú mobile -->
         <div id="navMobile" class="md:hidden hidden border-t border-gray-100 bg-white" role="menu"
             aria-label="Menú móvil">
             <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
@@ -114,13 +111,12 @@
                 <a role="menuitem" href="#soluciones" class="nk-link-mobile">Nuestras Soluciones</a>
                 <a role="menuitem" href="#impacto" class="nk-link-mobile">Impacto en la Educación</a>
                 <a role="menuitem" href="#recursos" class="nk-link-mobile">Recursos</a>
-                <a role="menuitem" href="./auth/login.html" class="nk-link-mobile">Login</a>
+                <a role="menuitem" href="#" id="openLoginMobile" class="nk-link-mobile">Login</a> 
                 <a role="menuitem" href="./auth/register.html" class="nk-link-mobile font-medium text-indigo-600">Registrarse</a>
             </div>
         </div>
     </nav>
 
-    <!-- ========= HERO ========= -->
     <header id="inicio" class="nk-hero-gradient text-white pt-28 sm:pt-32 pb-16 sm:pb-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center" data-aos="fade">
             <div>
@@ -131,10 +127,10 @@
                     Psicólogo y Administrador.
                 </p>
                 <div class="flex flex-wrap gap-3 mt-8">
-                    <a href="#login"
+                    <button id="openLoginHero"
                         class="nk-btn-primary px-6 py-3 rounded-lg font-medium focus-ring inline-flex items-center">
                         <i data-feather="log-in" class="mr-2 h-5 w-5"></i> Iniciar sesión
-                    </a>
+                    </button>
                     <a href="#soluciones"
                         class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 focus-ring inline-flex items-center">
                         Conoce más <i data-feather="arrow-right" class="ml-2 h-5 w-5"></i>
@@ -148,7 +144,6 @@
         </div>
     </header>
 
-    <!-- ========= EQUIPO ========= -->
     <section id="equipo" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-center">Nuestro Equipo</h2>
@@ -157,7 +152,6 @@
             </p>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-                <!-- Card -->
                 <article class="bg-gray-50 rounded-xl p-6 shadow-sm card-hover" aria-label="Psicóloga Infantil">
                     <img src="http://static.photos/people/200x200/1" alt="Dra. María González"
                         class="w-24 h-24 rounded-full mx-auto mb-4" />
@@ -185,7 +179,6 @@
         </div>
     </section>
 
-    <!-- ========= SOLUCIONES ========= -->
     <section id="soluciones" class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-center">Nuestras Soluciones</h2>
@@ -194,7 +187,6 @@
             </p>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-                <!-- Item -->
                 <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
                     <div class="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                         <i data-feather="activity" class="text-indigo-600 w-5 h-5"></i>
@@ -246,7 +238,6 @@
         </div>
     </section>
 
-    <!-- ========= IMPACTO ========= -->
     <section id="impacto" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-center">Impacto en la Educación</h2>
@@ -296,7 +287,6 @@
         </div>
     </section>
 
-    <!-- ========= RECURSOS ========= -->
     <section id="recursos" class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-center">Recursos Educativos</h2>
@@ -304,7 +294,6 @@
                 marcarlos como favoritos.</p>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-                <!-- Resource card -->
                 <article class="bg-white rounded-xl overflow-hidden shadow-sm card-hover"
                     aria-label="Guía de actividades sensoriales">
                     <img src="http://static.photos/education/640x360/3" alt="Actividades sensoriales"
@@ -366,15 +355,14 @@
             </div>
 
             <div class="text-center mt-10">
-                <a href="./auth/login.html"
+                <button id="openLoginRecursos"
                     class="nk-btn-primary inline-flex items-center px-6 py-3 rounded-lg font-medium focus-ring">
                     Accede a más recursos <i data-feather="arrow-right" class="ml-2 w-5 h-5"></i>
-                </a>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- ========= CTA LOGIN / REGISTRO ========= -->
     <section id="registro" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6" data-aos="fade-up">
             <div
@@ -388,16 +376,15 @@
                         class="nk-btn-primary px-6 py-3 rounded-lg font-medium focus-ring inline-flex items-center">
                         <i data-feather="user-plus" class="mr-2 h-5 w-5"></i> Crear cuenta
                     </a>
-                    <a href="./auth/login.html"
+                    <button id="openLoginCTA"
                         class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 focus-ring inline-flex items-center">
                         Ya tengo cuenta
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========= FOOTER ========= -->
     <footer class="bg-gray-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid md:grid-cols-4 gap-10">
             <div>
@@ -463,99 +450,189 @@
         </div>
     </footer>
 
-    <!-- ========= MODAL LOGIN / REGISTRO CON ROLES =========
-       * Solo UI (sin backend). El selector redirige a paneles:
-         - ./dashboards/padres.html
-         - ./dashboards/psicologos.html
-         - ./dashboards/admin.html
-  -->
     <div id="loginModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60]" aria-hidden="true">
-        <div class="bg-white w-full max-w-md mx-4 rounded-xl p-6 relative" role="dialog" aria-modal="true"
-            aria-labelledby="loginTitle" data-aos="zoom-in">
-            <button id="closeLogin" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700 focus-ring"
+        <div class="bg-white w-full max-w-lg mx-4 rounded-2xl p-8 relative shadow-2xl" role="dialog" aria-modal="true"
+            aria-labelledby="loginTitle" data-modal-content>
+            
+            <button id="closeLogin" class="absolute right-4 top-4 text-gray-500 hover:text-gray-700 focus-ring p-1 rounded-full bg-gray-50 transition"
                 aria-label="Cerrar modal">
-                <i data-feather="x"></i>
+                <i data-feather="x" class="w-5 h-5"></i>
             </button>
 
-            <h3 id="loginTitle" class="text-2xl font-bold text-gray-800">Acceso</h3>
-            <p class="text-gray-600 mt-1">Selecciona tu rol para iniciar.</p>
+            <div class="text-center mb-6">
+                <span class="inline-block p-3 bg-indigo-100 text-indigo-600 rounded-full mb-3">
+                    <i data-feather="monitor" class="w-6 h-6"></i>
+                </span>
+                <h3 id="loginTitle" class="text-2xl font-bold text-gray-900">Iniciar Sesión</h3>
+                <p class="text-gray-500 mt-2 text-base">
+                    Selecciona tu rol y accede a tu panel.
+                </p>
+            </div>
 
-            <form class="mt-4 space-y-4" onsubmit="return false;">
-                <!-- Email -->
+            <form class="mt-4 space-y-6" onsubmit="return false;" aria-labelledby="loginTitle">
+
                 <label class="block">
-                    <span class="block text-sm text-gray-700 mb-1">Correo</span>
-                    <input type="email" class="w-full px-4 py-2 border rounded-lg focus-ring" placeholder="tu@email.com"
-                        aria-required="true" />
+                    <span class="block text-sm font-medium text-gray-700 mb-2">Selecciona tu Rol</span>
+                    <div id="rolSelector" class="grid grid-cols-3 gap-4">
+                        <button type="button" class="nk-chip nk-chip--active" data-role="padre" aria-pressed="true">
+                            <i data-feather="users"></i> Padre
+                        </button>
+                        <button type="button" class="nk-chip" data-role="psicologo" aria-pressed="false">
+                            <i data-feather="heart"></i> Psicólogo
+                        </button>
+                        <button type="button" class="nk-chip" data-role="admin" aria-pressed="false">
+                            <i data-feather="shield"></i> Admin
+                        </button>
+                    </div>
+                    <input id="roleHidden" type="hidden" value="padre" aria-hidden="true" />
                 </label>
 
-                <!-- Password -->
                 <label class="block">
-                    <span class="block text-sm text-gray-700 mb-1">Contraseña</span>
-                    <input type="password" class="w-full px-4 py-2 border rounded-lg focus-ring" placeholder="••••••••"
-                        aria-required="true" />
+                    <span class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</span>
+                    <input id="emailInput" type="email" class="nk-input" placeholder="tu@correo.com" autocomplete="username"
+                        required />
                 </label>
 
-                <!-- Rol -->
                 <label class="block">
-                    <span class="block text-sm text-gray-700 mb-1">Rol</span>
-                    <select id="rolSelect" class="w-full px-4 py-2 border rounded-lg focus-ring" aria-required="true">
-                        <option value="" selected disabled>Selecciona tu rol</option>
-                        <option value="padres">Padre/Apoderado</option>
-                        <option value="psicologos">Psicólogo</option>
-                        <option value="admin">Administrador</option>
-                    </select>
+                    <span class="block text-sm font-medium text-gray-700 mb-1">Contraseña</span>
+                    <div class="relative">
+                        <input id="passwordModal" type="password" class="nk-input pr-12" placeholder="••••••••"
+                            autocomplete="current-password" required />
+                        <button type="button"
+                            class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
+                            aria-label="Mostrar u ocultar contraseña" data-toggle-password-modal>
+                            <i data-feather="eye" class="w-5 h-5"></i>
+                        </button>
+                    </div>
                 </label>
 
                 <div class="flex items-center justify-between">
-                    <label class="inline-flex items-center gap-2">
-                        <input type="checkbox" class="h-4 w-4 border rounded" />
-                        <span class="text-sm text-gray-700">Recordarme</span>
+                    <label class="inline-flex items-center gap-2 text-sm text-gray-600">
+                        <input type="checkbox" class="nk-checkbox" /> Recordarme
                     </label>
-                    <a href="#" class="text-sm text-indigo-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                    <a href="#" class="nk-link text-sm">¿Olvidaste tu contraseña?</a>
                 </div>
 
-                <button id="btnEntrar"
-                    class="w-full nk-btn-primary py-2 rounded-lg font-medium focus-ring">Entrar</button>
+                <button id="btnLoginModal" class="nk-btn-primary w-full py-3 rounded-lg font-medium focus-ring inline-flex items-center justify-center gap-2" aria-label="Iniciar sesión">
+                    <i data-feather="log-in" class="w-5 h-5"></i> Iniciar sesión
+                </button>
 
-                <!-- <div class="relative mt-2">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-200"></div>
-                    </div>
-                    <div class="relative flex justify-center">
-                        <span class="px-2 bg-white text-gray-500 text-sm">o regístrate</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-2">
-                    <a href="./auth/registro-padre.html" class="nk-btn-secondary focus-ring">
-                        <i data-feather="user-plus" class="w-4 h-4"></i> Padre
-                    </a>
-                    <a href="./auth/registro-psicologo.html" class="nk-btn-secondary focus-ring">
-                        <i data-feather="user-plus" class="w-4 h-4"></i> Psicólogo
-                    </a>
-                    <a href="./auth/registro-admin.html" class="nk-btn-secondary focus-ring">
-                        <i data-feather="user-plus" class="w-4 h-4"></i> Admin
-                    </a>
-                </div> -->
+                <p class="text-sm text-gray-500 text-center pt-2">
+                    ¿No tienes cuenta?
+                    <a href="./auth/register.html" class="nk-link" id="closeModalToRegister">Crear una cuenta</a>
+                </p>
             </form>
+
+            
+
         </div>
     </div>
 
-    <!-- ========= SCRIPTS ========= -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- app.js contendrá interacciones comunes (toggle menú, abrir modal, redirecciones por rol, etc.)
-       Te lo envío en el siguiente mensaje como /assets/app.js
-  -->
     <script src="./assets/app.js"></script>
 
     <script>
-        // Accesibilidad: respetar preferencias de movimiento
+        // Inicializa los efectos visuales (AOS) y los iconos (Feather)
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         AOS.init({ duration: reduceMotion ? 0 : 800, easing: 'ease-in-out', once: true });
-
-        // Reemplazo de iconos
         feather.replace();
+
+        // ===================================
+        // LÓGICA DEL MODAL DE LOGIN (CORREGIDA PARA CENTRADO)
+        // ===================================
+
+        const modal = document.getElementById('loginModal');
+        const closeModalBtn = document.getElementById('closeLogin');
+        
+        // Obtenemos todos los botones que abren el modal (tanto en el nav como en el hero, etc.)
+        const openLoginButtons = [
+            document.getElementById('openLoginDesktop'),
+            document.getElementById('openLoginMobile'),
+            document.getElementById('openLoginHero'),
+            document.getElementById('openLoginRecursos'),
+            document.getElementById('openLoginCTA'),
+        ].filter(Boolean); // Filtrar nulls si algún ID no existe
+
+        // Función para abrir el modal - CORRECCIÓN CLAVE
+        function openModal() {
+            // Quitamos 'hidden' y **aseguramos** que 'flex items-center justify-center' estén aplicadas
+            modal.classList.remove('hidden');
+            modal.classList.add('flex', 'items-center', 'justify-center'); 
+            modal.setAttribute('aria-hidden', 'false');
+            // Ocultar scroll del body
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Función para cerrar el modal - CORRECCIÓN CLAVE
+        function closeModal() {
+            modal.classList.add('hidden');
+            // Al cerrarlo, removemos las clases de centrado para que si se reabre, 
+            // no haya conflictos y se pueda centrar correctamente.
+            modal.classList.remove('flex', 'items-center', 'justify-center'); 
+            modal.setAttribute('aria-hidden', 'true');
+            // Restaurar scroll del body
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Event Listeners para abrir y cerrar
+        openLoginButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Cerrar al hacer clic fuera del contenido del modal
+        modal.addEventListener('click', (e) => {
+            // Si el clic es en el fondo (directamente en el modal y no en su hijo)
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Cerrar al presionar la tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('flex')) {
+                closeModal();
+            }
+        });
+        
+        // Lógica para mostrar/ocultar contraseña
+        document.querySelector('[data-toggle-password-modal]').addEventListener('click', (e) => {
+            const passwordInput = document.getElementById('passwordModal');
+            const icon = e.currentTarget.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.setAttribute('data-feather', 'eye-off');
+            } else {
+                passwordInput.type = 'password';
+                icon.setAttribute('data-feather', 'eye');
+            }
+            feather.replace(); // Volver a renderizar el icono
+        });
+        
+        // Lógica para seleccionar rol
+        document.getElementById('rolSelector').addEventListener('click', (e) => {
+            const button = e.target.closest('.nk-chip');
+            if (!button) return;
+
+            // Remueve la clase activa de todos
+            document.querySelectorAll('#rolSelector .nk-chip').forEach(btn => {
+                btn.classList.remove('nk-chip--active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+
+            // Agrega la clase activa al botón presionado
+            button.classList.add('nk-chip--active');
+            button.setAttribute('aria-pressed', 'true');
+            
+            // Actualiza el valor oculto (simulando un input)
+            document.getElementById('roleHidden').value = button.getAttribute('data-role');
+        });
+
+
     </script>
 </body>
 

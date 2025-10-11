@@ -16,59 +16,74 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilos específicos para la demo de registro */
-        /* La clase 'hidden' de Tailwind se usará para mostrar/ocultar */
         .form-content:not(.active) {
             display: none;
         }
+
+        /* DEFINICIONES DE CLASES PERSONALIZADAS PARA MEJORAR LA APARIENCIA DE LOS CHIPS Y OTROS ELEMENTOS */
+        .nk-card { @apply bg-white shadow-xl rounded-xl; }
+        .nk-link { @apply text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out; }
+        
+        /* **CHIPS MEJORADOS:** Ahora son botones de bloque con padding y centro el texto/icono. */
+        .nk-chip { 
+            @apply flex flex-col items-center justify-center p-3 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 bg-gray-50 
+                   hover:bg-indigo-50 hover:border-indigo-400 hover:text-indigo-600 cursor-pointer 
+                   transition duration-200 ease-in-out h-20; /* Altura fija para uniformidad */
+        }
+        
+        .nk-chip i { 
+            @apply w-5 h-5 mb-1.5; /* Tamaño y margen para separar el icono del texto */
+        }
+
+        .nk-chip--active { 
+            @apply bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-200/50 
+                   hover:bg-indigo-700 hover:border-indigo-700; 
+        }
+
+        .nk-chip--active i {
+             @apply text-white; /* Asegura que el icono sea blanco */
+        }
+        /* FIN CHIPS MEJORADOS */
+
+        .nk-input, .nk-select { @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150; }
+        .nk-btn-primary { @apply flex items-center justify-center gap-2 px-6 py-3 text-white bg-indigo-600 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150; }
+        .nk-btn-ghost { @apply flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition duration-150; }
+        .nk-footer-link { @apply hover:text-indigo-600 transition; }
     </style>
 </head>
 
 <body class="antialiased bg-gray-50">
-    <header class="w-full bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-            <a href="../index.html#inicio" class="flex items-center gap-3">
-                <img src="http://static.photos/blue/200x200/42" class="h-9 w-9 rounded-full" alt="Logo NeuroKid" />
-                <span class="text-xl font-bold text-indigo-600">NeuroKid</span>
-            </a>
-            <nav class="hidden md:flex items-center gap-6 text-sm">
-                <a href="../index.html#equipo" class="nk-link">Nuestro equipo</a>
-                <a href="../index.html#soluciones" class="nk-link">Soluciones</a>
-                <a href="../index.html#impacto" class="nk-link">Impacto</a>
-                <a href="../index.html#recursos" class="nk-link">Recursos</a>
-            </nav>
-        </div>
-    </header>
 
     <main class="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-10">
-        <section class="w-full max-w-5xl grid md:grid-cols-5 gap-8 items-stretch" data-aos="fade-up">
-            <div class="md:col-span-2">
-                <div class="nk-card p-6 h-full">
-                    <h1 class="text-2xl font-bold">Crear una cuenta</h1>
-                    <p class="text-gray-600 mt-1">
-                        Selecciona tu rol y completa el formulario.
-                    </p>
+        <section class="w-full max-w-xl lg:max-w-4xl mx-auto" data-aos="fade-up">
+            <div class="nk-card p-6 h-full">
+                <h1 class="text-2xl font-bold text-center">Crear una cuenta</h1>
+                <p class="text-gray-600 mt-1 text-center">
+                    Selecciona tu rol y completa el formulario.
+                </p>
 
-                    <form class="mt-6 space-y-4" onsubmit="return false;">
-                        <label class="block">
-                            <span class="block text-sm text-gray-700 mb-1">Tu Rol</span>
-                            <div id="rolSelector" class="grid grid-cols-3 gap-2">
-                                <button type="button" class="nk-chip nk-chip--active" data-role="padre">
-                                    <i data-feather="user"></i> Padre
-                                </button>
-                                <button type="button" class="nk-chip" data-role="psicologo">
-                                    <i data-feather="heart"></i> Psicólogo
-                                </button>
-                                <button type="button" class="nk-chip" data-role="admin">
-                                    <i data-feather="shield"></i> Admin
-                                </button>
-                            </div>
-                            <input id="roleHidden" type="hidden" value="padre" aria-hidden="true" />
-                        </label>
-                        
-                        <div id="formContainer" class="space-y-4">
-                            <div id="formPadre" class="form-content active space-y-4">
-                                <h2 class="text-lg font-semibold border-b pb-2">Registro de Padre/Apoderado</h2>
-                                
+                <form class="mt-6 space-y-4" onsubmit="return false;">
+                    <label class="block">
+                        <span class="block text-sm text-gray-700 mb-2">Tu Rol</span>
+                        <div id="rolSelector" class="grid grid-cols-3 gap-3">
+                            <button type="button" class="nk-chip nk-chip--active" data-role="padre">
+                                <i data-feather="user"></i> Padre
+                            </button>
+                            <button type="button" class="nk-chip" data-role="psicologo">
+                                <i data-feather="heart"></i> Psicólogo
+                            </button>
+                            <button type="button" class="nk-chip" data-role="admin">
+                                <i data-feather="shield"></i> Admin
+                            </button>
+                        </div>
+                        <input id="roleHidden" type="hidden" value="padre" aria-hidden="true" />
+                    </label>
+
+                    <div id="formContainer" class="space-y-4">
+                        <div id="formPadre" class="form-content active space-y-4">
+                            <h2 class="text-lg font-semibold border-b pb-2">Registro de Padre/Apoderado</h2>
+
+                            <div class="grid md:grid-cols-2 gap-4">
                                 <label class="block">
                                     <span class="block text-sm text-gray-700 mb-1">Nombre(s)</span>
                                     <input type="text" class="nk-input" required placeholder="Ej: Juan" />
@@ -77,6 +92,8 @@
                                     <span class="block text-sm text-gray-700 mb-1">Apellido(s)</span>
                                     <input type="text" class="nk-input" required placeholder="Ej: Pérez" />
                                 </label>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
                                 <label class="block">
                                     <span class="block text-sm text-gray-700 mb-1">DNI</span>
                                     <input type="text" class="nk-input" required placeholder="Documento de Identidad" />
@@ -85,19 +102,21 @@
                                     <span class="block text-sm text-gray-700 mb-1">Teléfono</span>
                                     <input type="tel" class="nk-input" placeholder="+1 555-1234" />
                                 </label>
-                                <label class="block">
-                                    <span class="block text-sm text-gray-700 mb-1">Tipo de Parentesco</span>
-                                    <select class="nk-select">
-                                        <option>Padre</option>
-                                        <option>Madre</option>
-                                        <option>Apoderado Legal</option>
-                                    </select>
-                                </label>
                             </div>
-                            
-                            <div id="formPsicologo" class="form-content space-y-4">
-                                <h2 class="text-lg font-semibold border-b pb-2">Registro de Psicólogo</h2>
+                            <label class="block">
+                                <span class="block text-sm text-gray-700 mb-1">Tipo de Parentesco</span>
+                                <select class="nk-select">
+                                    <option>Padre</option>
+                                    <option>Madre</option>
+                                    <option>Apoderado Legal</option>
+                                </select>
+                            </label>
+                        </div>
 
+                        <div id="formPsicologo" class="form-content space-y-4">
+                            <h2 class="text-lg font-semibold border-b pb-2">Registro de Psicólogo</h2>
+
+                            <div class="grid md:grid-cols-2 gap-4">
                                 <label class="block">
                                     <span class="block text-sm text-gray-700 mb-1">Nombre(s)</span>
                                     <input type="text" class="nk-input" required placeholder="Ej: Ana" />
@@ -106,6 +125,8 @@
                                     <span class="block text-sm text-gray-700 mb-1">Apellido(s)</span>
                                     <input type="text" class="nk-input" required placeholder="Ej: Martínez" />
                                 </label>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4">
                                 <label class="block">
                                     <span class="block text-sm text-gray-700 mb-1">Especialidad</span>
                                     <input type="text" class="nk-input" required placeholder="Ej: Terapia Cognitivo-Conductual" />
@@ -114,117 +135,67 @@
                                     <span class="block text-sm text-gray-700 mb-1">Teléfono</span>
                                     <input type="tel" class="nk-input" placeholder="+1 555-5678" />
                                 </label>
-                                <label class="block">
-                                    <span class="block text-sm text-gray-700 mb-1">Número de Colegiatura/Licencia</span>
-                                    <input type="text" class="nk-input" required placeholder="Ej: CL12345" />
-                                </label>
                             </div>
-                            
-                            <div id="formAdmin" class="form-content space-y-4">
-                                <h2 class="text-lg font-semibold border-b pb-2">Registro de Administrador</h2>
-
-                                <label class="block">
-                                    <span class="block text-sm text-gray-700 mb-1">Nombre Completo</span>
-                                    <input type="text" class="nk-input" required placeholder="Ej: Sara Morales" />
-                                </label>
-                                <label class="block">
-                                    <span class="block text-sm text-gray-700 mb-1">Código de Acceso Único</span>
-                                    <input type="text" class="nk-input" required placeholder="Código proporcionado por NeuroKid" />
-                                </label>
-                            </div>
-
-                            <h2 class="text-lg font-semibold border-b pb-2 pt-4">Datos de Acceso</h2>
                             <label class="block">
-                                <span class="block text-sm text-gray-700 mb-1">Correo electrónico</span>
-                                <input type="email" class="nk-input" placeholder="tu@correo.com" autocomplete="username"
-                                    required />
+                                <span class="block text-sm text-gray-700 mb-1">Número de Colegiatura/Licencia</span>
+                                <input type="text" class="nk-input" required placeholder="Ej: CL12345" />
+                            </label>
+                        </div>
+
+                        <div id="formAdmin" class="form-content space-y-4">
+                            <h2 class="text-lg font-semibold border-b pb-2">Registro de Administrador</h2>
+
+                            <label class="block">
+                                <span class="block text-sm text-gray-700 mb-1">Nombre Completo</span>
+                                <input type="text" class="nk-input" required placeholder="Ej: Sara Morales" />
                             </label>
                             <label class="block">
-                                <span class="block text-sm text-gray-700 mb-1">Contraseña</span>
-                                <div class="relative">
-                                    <input id="password" type="password" class="nk-input pr-10" placeholder="••••••••"
-                                        autocomplete="new-password" required />
-                                    <button type="button"
-                                        class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
-                                        aria-label="Mostrar u ocultar contraseña" data-toggle-password>
-                                        <i data-feather="eye"></i>
-                                    </button>
-                                </div>
+                                <span class="block text-sm text-gray-700 mb-1">Código de Acceso Único</span>
+                                <input type="text" class="nk-input" required placeholder="Código proporcionado por NeuroKid" />
                             </label>
-                            <label class="block">
-                                <span class="block text-sm text-gray-700 mb-1">Confirmar Contraseña</span>
-                                <input type="password" class="nk-input" required placeholder="••••••••" />
-                            </label>
+                        </div>
 
-                            <div class="pt-2">
-                                <button id="btnRegister" class="nk-btn-primary w-full" aria-label="Crear cuenta">
-                                    <i data-feather="user-plus"></i> Registrarme
+                        <h2 class="text-lg font-semibold border-b pb-2 pt-4">Datos de Acceso</h2>
+                        <label class="block">
+                            <span class="block text-sm text-gray-700 mb-1">Correo electrónico</span>
+                            <input type="email" class="nk-input" placeholder="tu@correo.com" autocomplete="username"
+                                required />
+                        </label>
+                        <label class="block">
+                            <span class="block text-sm text-gray-700 mb-1">Contraseña</span>
+                            <div class="relative">
+                                <input id="password" type="password" class="nk-input pr-10" placeholder="••••••••"
+                                    autocomplete="new-password" required />
+                                <button type="button"
+                                    class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
+                                    aria-label="Mostrar u ocultar contraseña" data-toggle-password>
+                                    <i data-feather="eye"></i>
                                 </button>
                             </div>
-                        </div>
+                        </label>
+                        <label class="block">
+                            <span class="block text-sm text-gray-700 mb-1">Confirmar Contraseña</span>
+                            <input type="password" class="nk-input" required placeholder="••••••••" />
+                        </label>
 
-                        <p class="text-sm text-gray-600 text-center pt-2">
-                            ¿Ya tienes cuenta?
-                            <a href="./login.html" class="nk-link">Iniciar sesión</a>
-                        </p>
-                    </form>
-
-                    <div class="mt-6">
-                        <div class="relative">
-                            <div class="absolute inset-0 flex items-center">
-                                <div class="w-full border-t border-gray-200"></div>
-                            </div>
-                            <div class="relative flex justify-center text-xs">
-                                <span class="px-3 bg-white text-gray-500">o registrarte con</span>
-                            </div>
+                        <div class="pt-2">
+                            <button id="btnRegister" class="nk-btn-primary w-full" aria-label="Crear cuenta">
+                                <i data-feather="user-plus"></i> Registrarme
+                            </button>
                         </div>
-                        <div class="mt-4 grid grid-cols-3 gap-2">
-                            <button class="nk-btn-ghost w-full text-sm"><i data-feather="mail"></i> Gmail</button>
-                            <button class="nk-btn-ghost w-full text-sm"><i data-feather="smartphone"></i> Apple</button>
-                            <button class="nk-btn-ghost w-full text-sm"><i data-feather="globe"></i> SSO</button>
-                        </div>
-                        <p class="mt-2 text-[11px] text-gray-500">Demo UI: estos botones no realizan autenticación real.
-                        </p>
                     </div>
-                </div>
-            </div>
 
-            <div class="md:col-span-3">
-                <div class="nk-card p-0 overflow-hidden h-full">
-                    <div class="hero-gradient h-36 w-full"></div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold">Regístrate según tu rol</h3>
-                        <p class="text-gray-600 mt-1">Cada rol te da acceso a herramientas específicas para tu función.</p>
+                    <p class="text-sm text-gray-600 text-center pt-2">
+                        ¿Ya tienes cuenta?
+                        <a href="./login.html" class="nk-link">Iniciar sesión</a>
+                    </p>
+                </form>
 
-                        <ul class="mt-4 space-y-3 text-sm text-gray-700">
-                            <li class="flex gap-2"><i data-feather="check-circle"
-                                    class="text-green-500"></i><span><strong>Padre/Apoderado:</strong> Gestiona menores, citas, progreso y recursos favoritos.</span>
-                            </li>
-                            <li class="flex gap-2"><i data-feather="check-circle"
-                                    class="text-green-500"></i><span><strong>Psicólogo:</strong> Administra disponibilidad, citas, asignaciones y genera informes.</span></li>
-                            <li class="flex gap-2"><i data-feather="check-circle"
-                                    class="text-green-500"></i><span><strong>Administrador:</strong> Supervisa usuarios, recursos y módulos legales de la plataforma.</span></li>
-                        </ul>
-                        
-                        <p class="text-[11px] text-gray-500 mt-6">Al registrarte aceptas nuestros <a href="../legales/terminos.html" class="nk-link">Términos de Servicio</a> y <a href="../legales/privacidad.html" class="nk-link">Política de Privacidad</a>.</p>
-                    </div>
-                </div>
+            
             </div>
         </section>
     </main>
 
-    <footer class="px-4 md:px-8 py-6 border-t border-gray-200 bg-white">
-        <div
-            class="max-w-7xl mx-auto text-sm text-gray-500 flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
-            <p>© 2025 NeuroKid.</p>
-            <nav class="flex gap-4">
-                <a href="../legales/privacidad.html" class="nk-footer-link">Privacidad</a>
-                <a href="../legales/terminos.html" class="nk-footer-link">Términos</a>
-                <a href="../legales/aviso-legal.html" class="nk-footer-link">Aviso Legal</a>
-                <a href="../legales/cookies.html" class="nk-footer-link">Cookies</a>
-            </nav>
-        </div>
-    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../assets/app.js"></script>
@@ -257,11 +228,11 @@
         chips.forEach(chip => {
             chip.addEventListener("click", () => {
                 const role = chip.getAttribute("data-role");
-                
+
                 // Actualiza el estado visual de los chips
                 chips.forEach(c => c.classList.remove("nk-chip--active"));
                 chip.classList.add("nk-chip--active");
-                
+
                 // Actualiza el campo oculto
                 roleHidden.value = role;
 
@@ -284,11 +255,11 @@
                 toggleBtn.innerHTML = isPwd ? feather.icons["eye-off"].toSvg() : feather.icons["eye"].toSvg();
             });
         }
-        
+
         // Demo de Redirección (Simulación de registro exitoso)
         document.getElementById("btnRegister").addEventListener("click", () => {
-             alert(`Registro como ${roleHidden.value} simulado exitoso. Redireccionando al login.`);
-             window.location.href = "./login.html";
+            alert(`Registro como ${roleHidden.value} simulado exitoso. Redireccionando al login.`);
+            window.location.href = "./login.html";
         });
     </script>
 </body>
